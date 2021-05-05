@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>QQ跑团记录着色器</title>
 <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script src="https://cdn.bootcss.com/crc-32/1.1.1/crc32.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.bootcdn.net/ajax/libs/Buttons/2.0.0/css/buttons.css" />
 <style type="text/css">
 body{background:#d1eaf7}
@@ -1210,6 +1211,7 @@ function _on_switch_changed(e){//开关被改变
 	}
 	console.log(e.id,e.checked)
 }
+
 function setElementVisibility(id,v){
 	if(v)
 		document.getElementById(id).style.display=""; 
@@ -1235,7 +1237,7 @@ function startDecodeLog(){
 		if(empty(playerName))
 			playerName=playerID
 		if(empty(playerID))
-			playerID=playerName
+			playerID=CRC32.str(playerName)
 		//playerName = HTMLEncode(playerName)
 		//playerID = HTMLEncode(playerID)
 		//playerTime = HTMLEncode(playerTime)
@@ -1270,7 +1272,7 @@ function startDecodeLog(){
 	var playerTime=""
 	for(var i in logContent){
 		logLine=logContent[i].trim()
-		var math=logLine.match(/(.*)\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)
+		var math=logLine.match(/(.*?)\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)//赵骰log格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
@@ -1279,20 +1281,20 @@ function startDecodeLog(){
 			othersContent=""
 			continue
 		}
-		math=logLine.match(/\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)
+		math=logLine.match(/\((\d+)\) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//赵骰log格式（不含名字）
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerID=math[1]
-			playerName=playerID
+			playerName=""
 			playerTime=math[2]
 			othersContent=""
 			continue
 		}
-		math=logLine.match(/(.*) ((\d+:\d+:\d+)|(\d+:\d+))/i)
+		math=logLine.match(/(.*?) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//其他格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
-			playerID=playerName
+			playerID=""
 			playerTime=math[3]
 			othersContent=""
 			continue
