@@ -1325,7 +1325,7 @@ function startRenderLog(){
 		//将纯ID变为艾特具体昵称
 		Object.keys(loaded_players).forEach(key=>{
 			if(key!=loaded_players[key].player)
-				newChild.content=newChild.content.replace(key+" ","@"+loaded_players[key].player+" ")
+				newChild.content=(newChild.content+" ").replace(key+" ","@"+loaded_players[key].player+" ")
 		})
 		
 		data.push(newChild)
