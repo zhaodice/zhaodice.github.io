@@ -974,7 +974,7 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             var blob = new Blob([fileContent], {
                 type: "application/msword;charset=utf-8"
             });
-            saveAs(blob, fileName + ".doc");
+            saveAs(blob, fileName);
         };
     })(jQuery);
 } else {
@@ -1123,26 +1123,6 @@ function closeBg() {
 	<a id="startRenderingButton" onclick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
 	<a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action">回到顶部</a>
 </div>
-<script>
-window.onscroll = function() {
-	if(needRerender){
-		var btn = document.getElementById('startRenderingButton');
-		var scrollTop = document.body.scrollTop || (document.documentElement && document.documentElement.scrollTop);
-		if (scrollTop >=300) {
-			btn.style.display = 'none';
-		} else{
-			btn.style.display = 'block';
-		}
-	}
-	var btn = document.getElementById('gotoTopButton');
-	var scrollTop = document.body.scrollTop || (document.documentElement && document.documentElement.scrollTop);
-	if (scrollTop >=300) {
-		btn.style.display = 'block';
-	} else{
-		btn.style.display = 'none';
-	}
-}
-</script>
 <script type="text/html" id="template_colored_preview">
 	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
 		<% for(var i = 0;i < logData.length;i++){ %>
@@ -1320,7 +1300,7 @@ function startRenderLog(){
 			}
 		}
 		if(!viewCommand){
-			if (newChild.content.match(/^([\.。!！](ra|jrrp|st|team|rav|r|ri|ti|li|sc|ww|dx|nn|pc).*)/i)) {
+			if (newChild.content.match(/^([\.。!！](\s+)?(ra|jrrp|st|team|rav|r|ri|ti|li|sc|ww|dx|nn|pc|log|set|setcoc|hp|san|mp).*)/i)) {
 				continue
 			}
 		}
@@ -1387,10 +1367,13 @@ function init(){
 }
 function exportDOC(){
 	var view=$("#div_log_view")
-	if(view.innerHTML==''){
+	if(needRedecode){
 		alert('请粘贴日志到输入框，然后点击右下角完成染色进程后保存染色文件')
 	}else{
-		view.wordExport(logName,document.getElementById('dynamicLogStyle').innerText);
+		var name=logName
+		if(getFileExt(name)!='doc')
+			name+=".doc"
+		view.wordExport(name,document.getElementById('dynamicLogStyle').innerText);
 	}
 }
 function exportTXT(){
@@ -1400,6 +1383,8 @@ function exportTXT(){
 	   obj.dispatchEvent(ev);
 	}
 	function exportRaw(name, data) {
+		 if(getFileExt(name)!='txt')
+			name+=".txt"
 		 var urlObject = window.URL || window.webkitURL || window;
 		 var export_blob = new Blob([data]);
 		 var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
@@ -1413,6 +1398,33 @@ function exportTXT(){
 //init()
 </script>
 <script>
+//自动隐藏按钮控制器
+window.onscroll = function() {
+	if(needRerender){
+		var btn = document.getElementById('startRenderingButton');
+		var scrollTop = document.body.scrollTop || (document.documentElement && document.documentElement.scrollTop);
+		if (scrollTop >=300) {
+			btn.style.display = 'none';
+		} else{
+			btn.style.display = 'block';
+		}
+	}
+	var btn = document.getElementById('gotoTopButton');
+	var scrollTop = document.body.scrollTop || (document.documentElement && document.documentElement.scrollTop);
+	if (scrollTop >=300) {
+		btn.style.display = 'block';
+	} else{
+		btn.style.display = 'none';
+	}
+}
+</script>
+<script>
+function getFileExt(filename){
+    var index = filename.lastIndexOf(".");
+	if(index==-1)
+		return ''
+    var suffix = filename.substr(index+1);
+}
 function getQueryVariable(variable){
        var query = window.location.search.substring(1);
        var vars = query.split("&");
