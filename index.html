@@ -1617,7 +1617,7 @@ var serverList=['https://s02.trpgbot.com/s/']
 var createTime=0;//文件上传时间
 var leftTime=0;//剩余时间
 var liveTime=864000;//文件可以存活的时间
-if(remoteCode.indexOf('.')==-1){
+if(remoteCode!='' && remoteCode.indexOf('.')==-1){
 	if(document.getElementById('logContent').value==''){
 		if(remoteCode.startsWith('#')){
 			remoteCode = remoteCode.substr(1)
