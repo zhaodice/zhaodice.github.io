@@ -1458,7 +1458,14 @@ function init(){
 	needRerender=false
 	switch_to_colored_view()
 }
+function FUCK_Domestic_BROWSER(){
+	if (navigator.userAgent.indexOf("Firefox") > -1 || navigator.userAgent.indexOf("Chrome") > -1) {
+		return
+	}
+	alert('仅有部分浏览器支持blob流下载，请勿使用移动端的国产浏览器，可能不支持下载，建议电脑下载或手机使用 Chrome 或 Firefox 浏览器。')
+}
 function exportDOC(){
+	FUCK_Domestic_BROWSER()
 	var view=$("#div_log_view")
 	if(needRedecode){
 		alert('请粘贴日志到输入框，然后点击右下角完成染色进程后保存染色文件')
@@ -1470,6 +1477,7 @@ function exportDOC(){
 	}
 }
 function exportTXT(){
+	FUCK_Domestic_BROWSER()
 	function fakeClick(obj) {
 	   var ev = document.createEvent("MouseEvents");
 	   ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
@@ -1487,6 +1495,7 @@ function exportTXT(){
 	}
 	exportRaw(logName,document.getElementById('logContent').value)
 }
+
 //document.getElementById('logContent').value=XXXXX
 //init()
 </script>
