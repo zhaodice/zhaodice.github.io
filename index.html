@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <title>QQ跑团记录着色器</title>
 <script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
 <script src="https://cdn.bootcss.com/crc-32/1.1.1/crc32.js"></script>
@@ -42,8 +43,8 @@ body{background:#d1eaf7}
 	{
 		background: #F5FAFA;
 	}
-.STYLE1 {font-size: 36px}
-.STYLE2 {font-size: 24px}
+.STYLE1 {font-size: 26px}
+.STYLE2 {font-size: 16px}
 </style>
 <style>
 #holder {
@@ -385,6 +386,91 @@ not supported by any browser */
 	border-radius:5px;
 	display:none;
 }
+</style>
+<style>
+
+ul.demo-vertical {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background-color: #f1f1f1;
+}
+
+ul.demo-vertical li a {
+    display: block;
+    color: #000;
+    padding: 8px 0 8px 16px;
+    text-decoration: none;
+	border: 0px;
+}
+
+ul.demo-vertical li a:hover:not(.active) {
+    background-color: #555;
+    color:white;
+}
+
+ul.demo-vertical a.active {
+    background-color: #4CAF50;
+    color:white;
+}
+
+
+ul.demo-horizontal {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+ul.demo-horizontal li {
+    float: left;
+	margin: 0;
+}
+
+ul.demo-horizontal li a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+	border: 0;
+}
+
+ul.demo-horizontal li a:hover:not(.active) {
+    background-color: #000;
+}
+
+ul.demo-horizontal li a.active {
+    background-color:#4CAF50;
+}
+
+
+ul.gray {
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3a3;
+}
+
+ul.gray li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 0.4em;
+    text-decoration: none;
+	border: 0;
+}
+
+ul.gray li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+ul.gray li a.active {
+    color: white;
+    background-color: #008CBA;
+}
+
+
 </style>
 <style id="dynamicLogStyle">
 .STYLE3 {font-size: 14px}
@@ -1015,15 +1101,18 @@ function closeBg() {
 	<div id="dialogPer"></div>
 </div>
 
-<div style="background-color:#a2d3ff6b">
-	<img src="data:image/gif;base64,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"  width="30" height="30" >
-	<div class="button-group">
-		<a href="https://logpainter.trpgbot.com/" target="_blank"><button type="button" class="button button-border button-primary button-small">ZhaoDice! Logpainter</button></a>
-		<a href="https://trpgbot.com" target="_blank"><button type="button" class="button button-border button-primary button-small">ZhaoDice! 主站</button></a>
-		<a href="https://github.com/zhaodice/zhaodice.github.io" target="_blank"><button type="button" class="button button-border button-primary button-small">本项目GitHub</button></a>
-	</div>
 
-</div>
+
+
+
+<ul class="demo-horizontal gray">
+  <li>
+  <img src="data:image/gif;base64,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"  width="47" height="47" >
+  </li>
+  <li><a href="https://logpainter.trpgbot.com/" target="_blank">Logpainter</a></li>
+  <li><a href="https://trpgbot.com" target="_blank">主站</a></li>
+  <li><a href="https://github.com/zhaodice/zhaodice.github.io" target="_blank">本项目GitHub</a></li>
+</ul>
 
 <div align="center" class="STYLE1">QQ跑团记录着色器</div>
 <div align="center" class="STYLE2">
@@ -1032,11 +1121,11 @@ function closeBg() {
 <p align="center" class="STYLE3">本页面为全新研制的染色系统，如有考虑不周可以联系设计者 QQ 484546762 进行反馈。</p>
 <h3 align="center" id="leftTimeShow"></h3>
 <p align="center">
-  <a class="button button-primary button-pill" onclick="exportTXT()">下载为TXT文本文件</a>
-  <a class="button button-primary button-pill" onclick="exportDOC()">下载为DOC染色文件</a>
+  <a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
+  <a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC染色文件</a>
 </p>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
-<a class="rightAndDown button button-caution button-small m-no-select" onclick="document.getElementById('logContent').value=''" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
+<a class="rightAndDown button button-caution button-small m-no-select" onClick="document.getElementById('logContent').value=''" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
 <!--
 <table width="100%" border="1">
   <tr>
@@ -1082,17 +1171,21 @@ function closeBg() {
 </script>
 
 <div align="center" class="m-no-select">
-	<input type="checkbox" id="visibility_CODE" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label>
-	<input type="checkbox" id="visibility_OB" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言:(开头</label>
-	<input type="checkbox" id="visibility_TIME" class="regular-checkbox" checked="checked" onchange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label>
-	<input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label>
+	<table width="100%" border="0">
+	  <tr style= "background-color: transparent;">
+		<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
+		<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
+		<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" checked="checked" onChange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
+		<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label></td>
+	  </tr>
+	</table>
 </div>
-<div align="center" style="background-color: #f6ffbe;">
+<div align="center">
 	<div class="button-group">
-		<button onclick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
+		<button onClick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
 			预览染色
 		</button>
-		<button onclick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
+		<button onClick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
 			输出代码
 		</button>
 	</div>
@@ -1100,7 +1193,7 @@ function closeBg() {
 
 <div id="content" style="background: #FFF;">
 	<!--双击全选-->
-	<div id="div_log_content" role="tabpanel" style="background-color:#fff" ondblclick="
+	<div id="div_log_content" role="tabpanel" style="background-color:#fff" onDblClick="
 						var text=this;
 						if (document.body.createTextRange) {
 						        var range = document.body.createTextRange();
@@ -1120,8 +1213,8 @@ function closeBg() {
 </div>
 <!--这个地方建议往下翻到一定距离就隐藏-->
 <div style="position:fixed;right:0;bottom:1em">
-	<a id="startRenderingButton" onclick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
-	<a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action">回到顶部</a>
+	<a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
+	<a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
 </div>
 <script type="text/html" id="template_colored_preview">
 	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
@@ -1419,6 +1512,68 @@ window.onscroll = function() {
 }
 </script>
 <script>
+function loadRemoteLogFile(file){
+	loadRemoteLogFile('',file)
+}
+function loadRemoteLogFile(server,file){
+	var fileInfoUrl=server+"logReader.php?m=metaData&id="+file;
+	var downloadUrl=server+"logReader.php?m=rawData&id="+file;
+	var showtime = function () {
+		if(leftTime>0){
+			leftd = Math.floor(leftTime/(60*60*24)),  //计算天数
+			lefth = Math.floor(leftTime/(60*60)%24),  //计算小时数
+			leftm = Math.floor(leftTime/(60)%60),  //计算分钟数
+			lefts = Math.floor(leftTime%60);  //计算秒数
+			document.getElementById("leftTimeShow").innerHTML="警告：<font color='red'>["+ leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts+"秒]</font>后文件将被删除！建议立即下载。";  //返回倒计时的字符串
+		}else{
+			document.getElementById("leftTimeShow").innerHTML="<font color='red'>超时！log文件的生死将任由我们处置了哦</font>"
+		}
+	}
+	showBg("[1/2]正在搜索文件，请稍后....");
+	$.ajax({
+			url: fileInfoUrl,
+			type:"get",
+			dataType:"json",
+			success: function(data) {
+				var nowdate= parseInt(new Date()/1000);
+				if(data.code==0){
+					showBg("[2/2]发现LOG，正在下载文件...");
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', downloadUrl, true);
+					xhr.addEventListener('progress', function (event) {
+					 // 响应头要有Content-Length
+					 if (event.lengthComputable) {
+					  let percentComplete = event.loaded / event.total;
+					  document.getElementById("dialogPer").innerText="正在下载文件:"+(percentComplete*100).toFixed(3)+"%";
+					 }
+					}, false);
+					xhr.addEventListener('loadend', function(event){
+						var data=event.target.response;
+						closeBg();
+						var v=document.getElementById("logContent");
+						v.value=data;
+						init()
+					});
+					xhr.addEventListener('error', function(event){
+						showBg("联网失败，请刷新网页或稍后重试");
+					});
+					xhr.send();
+				   createTime=data.createTime;
+				   logName=data.fileName;
+				   leftTime=liveTime-(nowdate-createTime);
+				   setInterval (function () {
+						showtime();
+						leftTime--;
+					}, 1000);  //反复执行函数本身
+				}else{
+				   showBg(data.content);
+				   //closeBg();
+				}
+			}
+	}).fail(function (result,result1,result2) {
+		showBg("[错误]联网失败，请刷新网页或稍后重试");
+	});
+}
 function getFileExt(filename){
     var index = filename.lastIndexOf(".");
 	if(index==-1)
@@ -1434,78 +1589,29 @@ function getQueryVariable(variable){
        }
        return(false);
 }
-//var file=getQueryVariable("id");
-var file=(function(){var str = window.location.href;
-var index = str .lastIndexOf("\/");  
-str  = str .substring(index + 1, str .length);
-return str;})();
-var fileInfoUrl="logReader.php?m=metaData&id="+file;
-var downloadUrl="logReader.php?m=rawData&id="+file;
-var createTime=0;
-var leftTime=0;
-var liveTime=864000;
-if(file.indexOf('.')==-1){
+var remoteCode=(function(){var str = window.location.href;
+	var index = str .lastIndexOf("\/");  
+	str  = str .substring(index + 1, str .length);
+	return str;}
+)();
+var serverList=['https://s02.trpgbot.com/s/']
+var createTime=0;//文件上传时间
+var leftTime=0;//剩余时间
+var liveTime=864000;//文件可以存活的时间
+if(remoteCode.indexOf('.')==-1){
 	if(document.getElementById('logContent').value==''){
-		if(file){
-			showBg("[1/2]正在搜索文件，请稍后....");
-			$.ajax({
-					url: fileInfoUrl,
-					type:"get",
-					dataType:"json",
-					success: function(data) {
-						var nowdate= parseInt(new Date()/1000);
-						if(data.code==0){
-							showBg("[2/2]发现LOG，正在下载文件...");
-							var xhr = new XMLHttpRequest();
-							xhr.open('GET', downloadUrl, true);
-							xhr.addEventListener('progress', function (event) {
-							 // 响应头要有Content-Length
-							 if (event.lengthComputable) {
-							  let percentComplete = event.loaded / event.total;
-							  document.getElementById("dialogPer").innerText="正在下载文件:"+(percentComplete*100).toFixed(3)+"%";
-							 }
-							}, false);
-							xhr.addEventListener('loadend', function(event){
-								var data=event.target.response;
-								closeBg();
-								var v=document.getElementById("logContent");
-								v.value=data;
-								init()
-							});
-							xhr.addEventListener('error', function(event){
-								showBg("联网失败，请刷新网页或稍后重试");
-							});
-							xhr.send();
-						   createTime=data.createTime;
-						   logName=data.fileName;
-						   leftTime=liveTime-(nowdate-createTime);
-						   setInterval (function () {
-								showtime();
-								leftTime--;
-							}, 1000);  //反复执行函数本身
-						}else{
-						   showBg(data.content);
-						   //closeBg();
-						}
-					}
-			}).fail(function (result,result1,result2) {
-				showBg("[错误]联网失败，请刷新网页或稍后重试");
-			});
+		if(remoteCode.startsWith('#')){
+			remoteCode = remoteCode.substr(1)
+			remoteCode = remoteCode.split('-')
+			if(remoteCode.length==2){
+				loadRemoteLogFile(serverList[parseInt(remoteCode[0])],remoteCode[1])//解析格式为 https://染色器地址/#ID-CODE
+			}
+		}else{
+			loadRemoteLogFile('',remoteCode)
 		}
 	}else{
 		closeBg()
 		init()
-	}
-}
-var showtime = function () {
-	if(leftTime>0){
-	    leftd = Math.floor(leftTime/(60*60*24)),  //计算天数
-	    lefth = Math.floor(leftTime/(60*60)%24),  //计算小时数
-	    leftm = Math.floor(leftTime/(60)%60),  //计算分钟数
-	    lefts = Math.floor(leftTime%60);  //计算秒数
-	    document.getElementById("leftTimeShow").innerHTML="警告：<font color='red'>["+ leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts+"秒]</font>后文件将被删除！建议立即下载。";  //返回倒计时的字符串
-	}else{
-		document.getElementById("leftTimeShow").innerHTML="<font color='red'>超时！log文件的生死将任由我们处置了哦</font>"
 	}
 }
 </script>
