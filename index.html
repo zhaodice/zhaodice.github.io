@@ -1451,15 +1451,17 @@ function switch_to_mode(){
 }
 function init(){
 	showBg("正在进行染色计算中...");
-	if(needRedecode){
-		startDecodeLog()//开始解码log文本
-	}
-	startRenderLog()//开始插入css进行动态染色
-	startRenderPlayerList()//开始显示player列表
-	setElementVisibility('startRenderingButton',false)
-	needRerender=false
-	switch_to_colored_view()
-	closeBg();
+	setTimeout(function(){
+		if(needRedecode){
+			startDecodeLog()//开始解码log文本
+		}
+		startRenderLog()//开始插入css进行动态染色
+		startRenderPlayerList()//开始显示player列表
+		setElementVisibility('startRenderingButton',false)
+		needRerender=false
+		switch_to_colored_view()
+		closeBg();
+	},50)
 }
 function FUCK_Domestic_BROWSER(){
 	if (navigator.userAgent.indexOf("Firefox") > -1 || navigator.userAgent.indexOf("Chrome") > -1) {
