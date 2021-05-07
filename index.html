@@ -1198,35 +1198,33 @@ function startDecodeLog(){
 	var playerTime=""
 	for(var i in logContent){
 		logLine=logContent[i].trim()
-		var math=logLine.match(/(.*?)\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)//赵骰log格式
+		var math=logLine.match(/^(.*?)?\((\d+)\) (\d+:\d+:\d+)$/i)//赵骰log格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
 			playerID=math[2]
 			playerTime=math[3]
+			if(playerName==null)
+				playerName = playerID
 			othersContent=""
 			continue
 		}
-		math=logLine.match(/\((\d+)\) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//赵骰log格式（不含名字）
-		if(math!=null){
-			appendLogChild(playerName,playerID,playerTime,othersContent)
-			playerID=math[1]
-			playerName=""
-			playerTime=math[2]
-			othersContent=""
-			continue
-		}
-		math=logLine.match(/(.*?) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//其他格式
+		
+		math=logLine.match(/^(.*?)(\(\d+\))? ((\d{4}-\d{2}-\d{2} )?((\d+:\d+:\d+)|(\d+:\d+)))$/i)//其他格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
-			playerID=""
+			playerID=math[2]
+			if(playerID==null){
+				playerID=''
+			}else{
+				playerID=playerID.substr(1,playerID.length-2)
+			}
 			playerTime=math[3]
 			othersContent=""
 			continue
 		}
 		othersContent+=logLine+'\n'
-		
 	}
 	appendLogChild(playerName,playerID,playerTime,othersContent)
 }
