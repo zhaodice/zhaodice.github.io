@@ -1311,6 +1311,11 @@ function startDecodeLog(){
 				playerName=math[2]
 				playerID=''
 				playerTime=math[1]
+				if(playerTime==null){
+					playerTime=''
+				}else{
+					playerTime=playerTime.substr(1,playerTime.length-3)
+				}
 				othersContent=math[3]
 				return true
 			}
