@@ -65,8 +65,8 @@ label {
  display: none;
 }
 .regular-checkbox + label {
- background-color: #1b9af714;
- border: 1px solid #1b9af738;
+ background-color: #fafafa;
+ border: 1px solid #cacece;
  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
  padding: 9px;
  border-radius: 3px;
@@ -78,8 +78,156 @@ label {
  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
 }
 .regular-checkbox:checked + label {
- background-color: #fff;
- border: 1px solid #d1eaf7;
+ background-color: #ecf1e4;
+ border: 1px solid #adb8c0;
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+ color: #99a1a7;
+}
+.regular-checkbox:checked + label:after {
+ content: '\2714';
+ font-size: 14px;
+ position: absolute;
+ top: 0px;
+ left: 3px;
+ color: #99a1a7;
+}
+.big-checkbox + label {
+ padding: 18px;
+}
+.big-checkbox:checked + label:after {
+ font-size: 28px;
+ left: 6px;
+}
+.tag {
+ font-family: Arial, sans-serif;
+ width: 200px;
+ position: relative;
+ top: 5px;
+ font-weight: bold;
+ text-transform: uppercase;
+ display: block;
+ float: left;
+}
+.radio-1 {
+ width: 193px;
+}
+.button-holder {
+ float: left;
+}
+/* RADIO */.regular-radio {
+ display: none;
+}
+.regular-radio + label {
+ -webkit-appearance: none;
+ background-color: #fafafa;
+ border: 1px solid #cacece;
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+ padding: 9px;
+ border-radius: 50px;
+ display: inline-block;
+ position: relative;
+}
+.regular-radio:checked + label:after {
+ content: ' ';
+ width: 12px;
+ height: 12px;
+ border-radius: 50px;
+ position: absolute;
+ top: 3px;
+ background: #99a1a7;
+ box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+ text-shadow: 0px;
+ left: 3px;
+ font-size: 32px;
+}
+.regular-radio:checked + label {
+ background-color: #ecf1e4;
+ color: #99a1a7;
+ border: 1px solid #adb8c0;
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1), inset 0px 0px 10px rgba(0,0,0,0.1);
+}
+.regular-radio + label:active,
+.regular-radio:checked + label:active {
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+.big-radio + label {
+ padding: 16px;
+}
+.big-radio:checked + label:after {
+ width: 24px;
+ height: 24px;
+ left: 4px;
+ top: 4px;
+}
+/* ------- IGNORE */#header {
+ width: 100%;
+ margin: 0px auto;
+}
+#header #center {
+ text-align: center;
+}
+#header h1 span {
+ color: #000;
+ display: block;
+ font-size: 50px;
+}
+#header p {
+ font-family: 'Georgia', serif;
+}
+#header h1 {
+ color: #892dbf;
+ font: bold 40px 'Bree Serif', serif;
+}
+#travel {
+ padding: 10px;
+ background: rgba(0,0,0,0.6);
+ border-bottom: 2px solid rgba(0,0,0,0.2);
+ font-variant: normal;
+ text-decoration: none;
+ margin-bottom: 20px;
+}
+#travel a {
+ font-family: 'Georgia', serif;
+ text-decoration: none;
+ border-bottom: 1px solid #f9f9f9;
+ color: #f9f9f9;
+}
+
+</style>
+<style>
+#holder {
+ width: 100%;
+}
+#holder >div {
+ clear: both;
+ padding: 2%;
+ margin-bottom: 20px;
+ border-bottom: 1px solid #eee;
+ float: left;
+ width: 96%;
+}
+label {
+ display: inline;
+}
+.regular-checkbox {
+ display: none;
+}
+.regular-checkbox + label {
+ background-color: #e9fffa;
+ border: 1px solid #cacece;
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+ padding: 9px;
+ border-radius: 3px;
+ display: inline-block;
+ position: relative;
+}
+.regular-checkbox + label:active,
+.regular-checkbox:checked + label:active {
+ box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+.regular-checkbox:checked + label {
+ background-color: #dff;
+ border: 1px solid #adb8c0;
  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
  color: #99a1a7;
 }
@@ -222,6 +370,8 @@ not supported by any browser */
 	filter:alpha(opacity=80);
 	-moz-opacity:0.5;
 	-khtml-opacity:0.5;
+	height: 100%;
+	width: 100%;
 	display:none;
 }
 #dialog {
@@ -678,6 +828,7 @@ var saveAs = saveAs || (function(view) {
             doc = view.document
         // only get URL when necessary in case Blob.js hasn't overridden it yet
             , get_URL = function() {
+
                 return view.URL || view.webkitURL || view;
             }
             , save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
@@ -931,9 +1082,7 @@ function showBg(text) {
 	var bh = $("body").height();
 	var bw = $("body").width();
 	$("#fullbg").css({
-		height:"500%",
-		width:"110%",
-		display:"block"
+		display: "block"
 	});
 	$("#dialog").show();
 	$("#fullbg").show();
@@ -946,59 +1095,33 @@ function closeBg() {
 </script>
 </head>
 <body>
-
 <div id="fullbg"></div>
 <div id="dialog">
-	当前进程：<div id="dialogContent"></div>
-	<p>
-	<div id="dialogPer"></div>
+当前进程：<div id="dialogContent"></div>
+<p>
+<div id="dialogPer"></div>
 </div>
-
-
-
-
-
 <ul class="demo-horizontal gray">
-  <li>
-  <img src="data:image/gif;base64,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"  width="47" height="47" >
-  </li>
-  <li><a href="https://logpainter.trpgbot.com/" target="_blank">Logpainter</a></li>
-  <li><a href="https://trpgbot.com" target="_blank">主站</a></li>
-  <li><a href="https://github.com/zhaodice/zhaodice.github.io" target="_blank">本项目GitHub</a></li>
+<li>
+<img src="data:image/gif;base64,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" width="47" height="47">
+</li>
+<li><a href="https://logpainter.trpgbot.com/" target="_blank">Logpainter</a></li>
+<li><a href="https://trpgbot.com" target="_blank">主站</a></li>
+<li><a href="https://github.com/zhaodice/zhaodice.github.io" target="_blank">本项目GitHub</a></li>
 </ul>
-
 <div align="center" class="STYLE1">QQ跑团记录着色器</div>
 <div align="center" class="STYLE2">
-  <p>v0.1 beta by 赵怡然</p>
+<p>v0.1 beta by 赵怡然</p>
 </div>
 <p align="center" class="STYLE3">本页面为全新研制的染色系统，如有考虑不周可以联系设计者 QQ 484546762 进行反馈。</p>
 <h3 align="center" id="leftTimeShow"></h3>
 <p align="center">
-  <a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
-  <a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC染色文件</a>
+<a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
+<a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC染色文件</a>
 </p>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onClick="document.getElementById('logContent').value=''" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
-<!--
-<table width="100%" border="1">
-  <tr>
-    <td>玩家名称</td>
-    <td>玩家ID</td>
-    <td>可视</td>
-    <td>颜色选择</td>
-  </tr>
 
-  <tr>
-    <td><div id="player_editor_id_{id}" contenteditable="true">{player}</div></td>
-    <td>{id}</td>
-    <td><input type="checkbox" id="visibility_id_{id}" class="regular-checkbox" checked="checked"><label for="visibility_id_{id}"></label></div>
-	</td>
-    <td><input type="color" value="#2D9900"/></td>
-  </tr>
-
-</table>
- -->
- 
 <div id="div_player_list"></div>
 <script type="text/html" id="template_player_list">
 	<table width="100%" border="1">
@@ -1022,31 +1145,29 @@ function closeBg() {
 	
 	</table>
 </script>
-
 <div align="center" class="m-no-select">
-	<table width="100%" border="0">
-	  <tr style= "background-color: transparent;">
-		<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
-		<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
-		<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" checked="checked" onChange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
-		<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label></td>
-	  </tr>
-	</table>
+<table width="100%" border="0">
+<tr style="background-color: transparent;">
+<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
+<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
+<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" checked="checked" onChange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
+<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label></td>
+</tr>
+</table>
 </div>
 <div align="center">
-	<div class="button-group">
-		<button onClick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
-			预览染色
-		</button>
-		<button onClick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
-			输出代码
-		</button>
-	</div>
+<div class="button-group">
+<button onClick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
+预览染色
+</button>
+<button onClick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
+输出代码
+</button>
 </div>
-
+</div>
 <div id="content" style="background: #FFF;">
-	<!--双击全选-->
-	<div id="div_log_content" role="tabpanel" style="background-color:#fff" onDblClick="
+
+<div id="div_log_content" role="tabpanel" style="background-color:#fff" onDblClick="
 						var text=this;
 						if (document.body.createTextRange) {
 						        var range = document.body.createTextRange();
@@ -1061,13 +1182,13 @@ function closeBg() {
 						    }
 
 					">
-		<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
-	</div>
+<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
 </div>
-<!--这个地方建议往下翻到一定距离就隐藏-->
+</div>
+
 <div style="position:fixed;right:0;bottom:1em">
-	<a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
-	<a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
+<a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
+<a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
 </div>
 <script type="text/html" id="template_colored_preview">
 	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
@@ -1085,7 +1206,6 @@ function closeBg() {
 		<% } %>
 	</div>
 </script>
-
 <div align="center">赵怡然 Copyright ©2021-2022 trpgbot.com </div>
 <script>
 const colors=['#8B0000','#228B22','#FF1493','#FFA500','#800080','#000000','#00008B','#9ACD32','#808000','#BC8F8F','#008080','#FF0000','#00FFFF','#7FFFD4','#EE82EE','#D3D3D3','#FFEBCD']
@@ -1198,33 +1318,35 @@ function startDecodeLog(){
 	var playerTime=""
 	for(var i in logContent){
 		logLine=logContent[i].trim()
-		var math=logLine.match(/^(.*?)?\((\d+)\) (\d+:\d+:\d+)$/i)//赵骰log格式
+		var math=logLine.match(/(.*?)\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)//赵骰log格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
 			playerID=math[2]
 			playerTime=math[3]
-			if(playerName==null)
-				playerName = playerID
 			othersContent=""
 			continue
 		}
-		
-		math=logLine.match(/^(.*?)(\(\d+\))? ((\d{4}-\d{2}-\d{2} )?((\d+:\d+:\d+(\.0)?)|(\d+:\d+)))$/i)//其他格式
+		math=logLine.match(/\((\d+)\) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//赵骰log格式（不含名字）
+		if(math!=null){
+			appendLogChild(playerName,playerID,playerTime,othersContent)
+			playerID=math[1]
+			playerName=""
+			playerTime=math[2]
+			othersContent=""
+			continue
+		}
+		math=logLine.match(/(.*?) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//其他格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
-			playerID=math[2]
-			if(playerID==null){
-				playerID=''
-			}else{
-				playerID=playerID.substr(1,playerID.length-2)
-			}
+			playerID=""
 			playerTime=math[3]
 			othersContent=""
 			continue
 		}
 		othersContent+=logLine+'\n'
+		
 	}
 	appendLogChild(playerName,playerID,playerTime,othersContent)
 }
@@ -1462,31 +1584,37 @@ function getQueryVariable(variable){
        }
        return(false);
 }
-var remoteCode=(function(){var str = window.location.href;
-	var index = str .lastIndexOf("\/");  
-	str  = str .substring(index + 1, str .length);
-	return str;}
-)();
+function F5(){
+	var remoteCode=(function(){var str = window.location.href;
+		var index = str .lastIndexOf("\/");  
+		str  = str .substring(index + 1, str .length);
+		return str;}
+	)();
+	if(remoteCode!='' && remoteCode.indexOf('.')==-1){
+		if(document.getElementById('logContent').value==''){
+			if(remoteCode.startsWith('#')){
+				remoteCode = remoteCode.substr(1)
+				remoteCode = remoteCode.split('-')
+				if(remoteCode.length==2){
+					loadRemoteLogFile(serverList[parseInt(remoteCode[0])],remoteCode[1])//解析格式为 https://染色器地址/#ID-CODE
+				}
+			}else{
+				loadRemoteLogFile('',remoteCode)
+			}
+		}else{
+			closeBg()
+			init()
+		}
+	}
+}
 var serverList=['https://s02.trpgbot.com/s/']
 var createTime=0;//文件上传时间
 var leftTime=0;//剩余时间
 var liveTime=864000;//文件可以存活的时间
-if(remoteCode!='' && remoteCode.indexOf('.')==-1){
-	if(document.getElementById('logContent').value==''){
-		if(remoteCode.startsWith('#')){
-			remoteCode = remoteCode.substr(1)
-			remoteCode = remoteCode.split('-')
-			if(remoteCode.length==2){
-				loadRemoteLogFile(serverList[parseInt(remoteCode[0])],remoteCode[1])//解析格式为 https://染色器地址/#ID-CODE
-			}
-		}else{
-			loadRemoteLogFile('',remoteCode)
-		}
-	}else{
-		closeBg()
-		init()
-	}
-}
+F5()
+window.addEventListener('hashchange',function(event){
+ F5()
+})
 </script>
 </body>
 </html>
