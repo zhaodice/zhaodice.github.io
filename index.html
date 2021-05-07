@@ -1273,37 +1273,83 @@ function startDecodeLog(){
 	var playerName=""
 	var playerID=""
 	var playerTime=""
-	for(var i in logContent){
+	var preferMode=0
+	var decodeModes=[
+		function(){
+			var math=logLine.match(/^(.*?)?\((\d+)\) (\d+:\d+:\d+)$/i)//赵骰log格式
+			if(math!=null){
+				appendLogChild(playerName,playerID,playerTime,othersContent)
+				playerName=math[1]
+				playerID=math[2]
+				playerTime=math[3]
+				if(playerName==null)
+					playerName = playerID
+				othersContent=""
+				return true
+			}
+			return false
+		},function(){
+			var math=logLine.match(/^(.*?)(\(\d+\))? ((\d{4}-\d{2}-\d{2} )?((\d+:\d+:\d+(\.0)?)|(\d+:\d+)))$/i)//溯洄、塔格式
+			if(math!=null){
+				appendLogChild(playerName,playerID,playerTime,othersContent)
+				playerName=math[1]
+				playerID=math[2]
+				if(playerID==null){
+					playerID=''
+				}else{
+					playerID=playerID.substr(1,playerID.length-2)
+				}
+				playerTime=math[3]
+				othersContent=""
+				return true
+			}
+			return false
+		},function(){
+			math=logLine.match(/^(<\d{4}-\d{2}-\d{2} \d+:\d+:\d+\.0> )?(\[(.*?)\]):(.*)$/i)//塔格式
+			if(math!=null){
+				appendLogChild(playerName,playerID,playerTime,othersContent)
+				playerName=math[2]
+				playerID=''
+				playerTime=math[1]
+				othersContent=math[3]
+				return true
+			}
+			return false
+		},function(){
+			math=logLine.match(/^(\d{4}-\d{2}-\d{2} \d+:\d+:\d+ )(.*?)\((\d+)\)$/i)//PC QQ 聊天记录导出格式
+			if(math!=null){
+				appendLogChild(playerName,playerID,playerTime,othersContent)
+				playerName=math[2]
+				playerID=math[3]
+				playerTime=math[1]
+				othersContent=''
+				return true
+			}
+			return false
+		},function(){
+			math=logLine.match(/^(.*?) <(.*?)>(.*)$/i)//本染色器，染色后的格式
+			if(math!=null){
+				appendLogChild(playerName,playerID,playerTime,othersContent)
+				playerName=math[2]
+				playerTime=math[1]
+				othersContent=math[3]
+				return true
+			}
+			return false
+		}
+	]
+log:for(var i in logContent){
 		logLine=logContent[i].trim()
-		var math=logLine.match(/(.*?)\((\d+)\) ((\d+:\d+:\d+)|(\d+:\d+))/i)//赵骰log格式
-		if(math!=null){
-			appendLogChild(playerName,playerID,playerTime,othersContent)
-			playerName=math[1]
-			playerID=math[2]
-			playerTime=math[3]
-			othersContent=""
-			continue
+		if(decodeModes[preferMode]()){//使用最佳正则表达式
+			continue log
 		}
-		math=logLine.match(/\((\d+)\) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//赵骰log格式（不含名字）
-		if(math!=null){
-			appendLogChild(playerName,playerID,playerTime,othersContent)
-			playerID=math[1]
-			playerName=""
-			playerTime=math[2]
-			othersContent=""
-			continue
-		}
-		math=logLine.match(/(.*?) ((\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})|(\d{2}:\d{2}:\d{2})|(\d{2}:\d{2}))/i)//其他格式
-		if(math!=null){
-			appendLogChild(playerName,playerID,playerTime,othersContent)
-			playerName=math[1]
-			playerID=""
-			playerTime=math[3]
-			othersContent=""
-			continue
+		for(var tryMode in decodeModes){//枚举最佳正则表达式
+			if(preferMode!=tryMode && decodeModes[tryMode]()){
+				preferMode = tryMode
+				continue log
+			}
 		}
 		othersContent+=logLine+'\n'
-		
 	}
 	appendLogChild(playerName,playerID,playerTime,othersContent)
 }
