@@ -1450,6 +1450,7 @@ function switch_to_mode(){
 	setElementVisibility('div_log_code',mode_code)
 }
 function init(){
+	showBg("正在进行染色计算中...");
 	if(needRedecode){
 		startDecodeLog()//开始解码log文本
 	}
@@ -1458,6 +1459,7 @@ function init(){
 	setElementVisibility('startRenderingButton',false)
 	needRerender=false
 	switch_to_colored_view()
+	closeBg();
 }
 function FUCK_Domestic_BROWSER(){
 	if (navigator.userAgent.indexOf("Firefox") > -1 || navigator.userAgent.indexOf("Chrome") > -1) {
@@ -1587,7 +1589,6 @@ function loadRemoteLogFile(server,file){
 					}, 1000);  //反复执行函数本身
 				}else{
 				   showBg(data.content);
-				   //closeBg();
 				}
 			}
 	}).fail(function (result,result1,result2) {
