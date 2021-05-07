@@ -370,8 +370,6 @@ not supported by any browser */
 	filter:alpha(opacity=80);
 	-moz-opacity:0.5;
 	-khtml-opacity:0.5;
-	height: 100%;
-	width: 100%;
 	display:none;
 }
 #dialog {
@@ -1081,6 +1079,8 @@ function showBg(text) {
 	var bh = $("body").height();
 	var bw = $("body").width();
 	$("#fullbg").css({
+		height: "100%";
+		width: "100%";
 		display: "block"
 	});
 	$("#dialog").show();
