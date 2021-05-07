@@ -1210,7 +1210,7 @@ function startDecodeLog(){
 			continue
 		}
 		
-		math=logLine.match(/^(.*?)(\(\d+\))? ((\d{4}-\d{2}-\d{2} )?((\d+:\d+:\d+)|(\d+:\d+)))$/i)//其他格式
+		math=logLine.match(/^(.*?)(\(\d+\))? ((\d{4}-\d{2}-\d{2} )?((\d+:\d+:\d+(\.0)?)|(\d+:\d+)))$/i)//其他格式
 		if(math!=null){
 			appendLogChild(playerName,playerID,playerTime,othersContent)
 			playerName=math[1]
