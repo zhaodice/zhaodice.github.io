@@ -1591,19 +1591,14 @@ function F5(){
 		return str;}
 	)();
 	if(remoteCode!='' && remoteCode.indexOf('.')==-1){
-		if(document.getElementById('logContent').value==''){
-			if(remoteCode.startsWith('#')){
-				remoteCode = remoteCode.substr(1)
-				remoteCode = remoteCode.split('-')
-				if(remoteCode.length==2){
-					loadRemoteLogFile(serverList[parseInt(remoteCode[0])],remoteCode[1])//解析格式为 https://染色器地址/#ID-CODE
-				}
-			}else{
-				loadRemoteLogFile('',remoteCode)
+		if(remoteCode.startsWith('#')){
+			remoteCode = remoteCode.substr(1)
+			remoteCode = remoteCode.split('-')
+			if(remoteCode.length==2){
+				loadRemoteLogFile(serverList[parseInt(remoteCode[0])],remoteCode[1])//解析格式为 https://染色器地址/#ID-CODE
 			}
 		}else{
-			closeBg()
-			init()
+			loadRemoteLogFile('',remoteCode)
 		}
 	}
 }
@@ -1615,7 +1610,6 @@ F5()
 window.addEventListener('hashchange',function(event){
  needRedecode=true
  needRerender=true
- document.getElementById('logContent').value=''
  F5()
 })
 </script>
