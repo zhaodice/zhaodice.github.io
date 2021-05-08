@@ -1356,6 +1356,7 @@ log:for(var i in logContent){
 	appendLogChild(playerName,playerID,playerTime,othersContent)
 }
 function startRenderLog(){
+	String.prototype.replaceAll = function(s1,s2){return this.replace(new RegExp(s1,"gm"),s2);}
 	var data=[]
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
@@ -1378,7 +1379,7 @@ function startRenderLog(){
 		//将纯ID变为艾特具体昵称
 		Object.keys(loaded_players).forEach(key=>{
 			if(key!=loaded_players[key].player)
-				newChild.content=(newChild.content+" ").replace(key+" ","@"+loaded_players[key].player+" ")
+				newChild.content=(newChild.content+" ").replaceAll(key+" ","@"+loaded_players[key].player+" ")
 		})
 		
 		data.push(newChild)
