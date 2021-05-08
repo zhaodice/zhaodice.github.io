@@ -1078,7 +1078,6 @@ function closeBg() {
 </p>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onClick="document.getElementById('logContent').value=''" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
-
 <div id="div_player_list"></div>
 <script type="text/html" id="template_player_list">
 	<table width="100%" border="1">
@@ -1123,7 +1122,6 @@ function closeBg() {
 </div>
 </div>
 <div id="content" style="background: #FFF;">
-
 <div id="div_log_content" role="tabpanel" style="background-color:#fff" onDblClick="
 						var text=this;
 						if (document.body.createTextRange) {
@@ -1142,7 +1140,6 @@ function closeBg() {
 <span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
 </div>
 </div>
-
 <div style="position:fixed;right:0;bottom:1em">
 <a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
 <a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
@@ -1361,7 +1358,7 @@ log:for(var i in logContent){
 function startRenderLog(){
 	var data=[]
 	for(var i in loaded_data){
-		var newChild = loaded_data[i]
+		var newChild = Object.create(loaded_data[i])
 		if(!viewCode){
 			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
