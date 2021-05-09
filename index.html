@@ -1122,23 +1122,23 @@ function closeBg() {
 </div>
 </div>
 <div id="content" style="background: #FFF;">
-<div id="div_log_content" role="tabpanel" style="background-color:#fff" onDblClick="
-						var text=this;
-						if (document.body.createTextRange) {
-						        var range = document.body.createTextRange();
-						        range.moveToElementText(text);
-						        range.select();
-						    } else if (window.getSelection) {
-						        var selection = window.getSelection();
-						        var range = document.createRange();
-						        range.selectNodeContents(text);
-						        selection.removeAllRanges();
-						        selection.addRange(range);
-						    }
-
-					">
-<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
-</div>
+	<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="
+							var text=this;
+							if (document.body.createTextRange) {
+									var range = document.body.createTextRange();
+									range.moveToElementText(text);
+									range.select();
+								} else if (window.getSelection) {
+									var selection = window.getSelection();
+									var range = document.createRange();
+									range.selectNodeContents(text);
+									selection.removeAllRanges();
+									selection.addRange(range);
+								}
+	
+						">
+		<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
+	</div>
 </div>
 <div style="position:fixed;right:0;bottom:1em">
 <a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
