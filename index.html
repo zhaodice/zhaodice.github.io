@@ -1122,7 +1122,7 @@ function closeBg() {
 </div>
 </div>
 <div id="content" style="background: #FFF;">
-	<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="
+<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="
 							var text=this;
 							if (document.body.createTextRange) {
 									var range = document.body.createTextRange();
@@ -1137,8 +1137,8 @@ function closeBg() {
 								}
 	
 						">
-		<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
-	</div>
+<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
+</div>
 </div>
 <div style="position:fixed;right:0;bottom:1em">
 <a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action">点击重新染色跑团记录</a>
@@ -1329,12 +1329,12 @@ function startDecodeLog(){
 			}
 			return false
 		},function(){
-			math=logLine.match(/^(.*?) <(.*?)>(.*)$/i)//本染色器，染色后的格式
+			math=logLine.match(/^(((\d{4}-\d{2}-\d{2} )|(\d{4}\/\d+\/\d+ ))?((\d+:\d+:\d+(\.0)?)|(\d+:\d+))) <(.*?)>(.*)$/i)//本染色器，染色后的格式
 			if(math!=null){
 				appendLogChild(playerName,playerID,playerTime,othersContent)
-				playerName=math[2]
+				playerName=math[9]
 				playerTime=math[1]
-				othersContent=math[3]
+				othersContent=math[10]
 				return true
 			}
 			return false
