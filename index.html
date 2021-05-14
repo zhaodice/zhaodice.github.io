@@ -349,6 +349,44 @@ not supported by any browser */
 	border-radius:5px;
 	display:none;
 }
+.Bar ,.Bars {
+	position: relative;
+	width: 100%;
+    /* 宽度 */
+	border: 1px solid #3281D6;
+ /*! padding: 1px; */
+}
+
+.Bar div,.Bars div {
+	display: block;
+	position: relative;
+	background: #007CFF38;
+/* 进度条背景颜色 */
+	color: #3339;
+	height: 20px;
+ /* 高度 */
+	line-height: 20px;
+  /* 必须和高度一致，文本才能垂直居中 */
+}
+
+.Bars div {
+	background: #090
+}
+
+.Bar div span,.Bars div span {
+	position: absolute;
+	width: 100%;
+ /* 宽度 */
+	text-align: center;
+	font-weight: bold;
+}
+
+.cent {
+	margin: 0 auto;
+	width: 300px;
+	overflow: hidden
+} 
+
 </style>
 <style>
 
@@ -1047,7 +1085,18 @@ function showBg(text) {
 	$("#dialog").show();
 	$("#fullbg").show();
 	document.getElementById("dialogContent").innerText = text
-	document.getElementById("dialogPer").innerText = ""
+	setBgProcess(0)
+}
+function setBgProcess(p){
+	var html=''
+	if(p>0){
+		html+='<div class="Bar"> '
+		html+='	<div style="width: '+p+'%;"> '
+		html+='		<span>'+p+'%</span> '
+		html+='	</div> '
+		html+='</div>'
+	}
+	document.getElementById("dialogPer").innerText = html
 }
 //关闭灰色 jQuery 遮罩
 function closeBg() {
@@ -1552,7 +1601,7 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('progress',
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
-					document.getElementById("dialogPer").innerText = "已载入:" + ((event.loaded / size) * 100).toFixed(3) + "%";
+					setBgProcess(((event.loaded / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
