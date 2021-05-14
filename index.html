@@ -1554,6 +1554,8 @@ function loadRemoteLogFile(server, file) {
 					if (event.lengthComputable) {
 						let percentComplete = event.loaded / event.total;
 						document.getElementById("dialogPer").innerText = "正在下载文件:" + (percentComplete * 100).toFixed(3) + "%";
+					}else{
+						document.getElementById("dialogPer").innerText = "正在下载文件:" + event.loaded + " Bytes";
 					}
 				},
 				false);
