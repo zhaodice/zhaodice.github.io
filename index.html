@@ -1085,7 +1085,6 @@ function showBg(text) {
 	$("#dialog").show();
 	$("#fullbg").show();
 	document.getElementById("dialogContent").innerText = text
-	setBgProcess(0)
 }
 function setBgProcess(p){
 	var html=''
@@ -1101,6 +1100,7 @@ function setBgProcess(p){
 //关闭灰色 jQuery 遮罩
 function closeBg() {
 	$("#fullbg,#dialog").hide();
+	setBgProcess(0)
 }
 </script>
 </head>
@@ -1585,6 +1585,7 @@ function loadRemoteLogFile(file) {
 	loadRemoteLogFile('', file)
 }
 function loadRemoteLogFile(server, file) {
+	closeBg()
 	var fileInfoUrl = server + "logReader.php?m=metaData&id=" + file;
 	var downloadUrl = server + "logReader.php?m=rawData&id=" + file;
 	var showtime = function() {
