@@ -1569,19 +1569,17 @@ window.onscroll = function() {
 </script>
 <script>
 String.prototype.byteLength = function() {
-	var b = 0;
-	if(this.length) {
-		for(var i = 0; i < this.length; i ++) {
-			if(this.charCodeAt(i) > 255) {
-				b += 2;
-			}else {
-				b ++;
-			}
-		}
-		return b;
-	} else {
-		return 0;
-	}
+    var byteLen = 0;
+    for (var i = 0; i < this.length; i++) {
+        var c = this.charCodeAt(i);
+        byteLen += c < (1 <<  7) ? 1 :
+                   c < (1 << 11) ? 2 :
+                   c < (1 << 16) ? 3 :
+                   c < (1 << 21) ? 4 :
+                   c < (1 << 26) ? 5 :
+                   c < (1 << 31) ? 6 : Number.NaN;
+    }
+    return byteLen;
 }
 function loadRemoteLogFile(file) {
 	loadRemoteLogFile('', file)
