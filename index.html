@@ -1621,9 +1621,8 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
-					closeBg();
-					var v = document.getElementById("logContent");
-					v.value = data;
+					document.getElementById("logContent").value = data;
+					setBgProcess(100)
 					init()
 				});
 				xhr.addEventListener('error',
