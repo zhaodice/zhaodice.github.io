@@ -1108,7 +1108,7 @@ function closeBg() {
 <div id="fullbg"></div>
 <div id="dialog">
 当前进程：
-	<div id="dialogContent" style="word-wrap: break-word;word-break: normal;"></div>
+<div id="dialogContent" style="word-wrap: break-word;word-break: normal;"></div>
 <p>
 <div id="dialogPer"></div>
 </div>
@@ -1621,6 +1621,7 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
+					console.log("LOADED CRC32="+CRC32.str(data));
 					document.getElementById("logContent").value = data;
 					init()
 				});
