@@ -1268,9 +1268,10 @@ function closeBg() {
 	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
 		<% for(var i = 0;i < logData.length;i++){ %>
 			<% var pl=playerData[logData[i].id] %>
-			<% var hiddenTimeTexts = logData[i].noTime?" hiddenTexts":"" %>
+			<% var hiddenTimeTextsSilver = logData[i].noTime?"color:white;":"color:silver;" %>
+			<% var hiddenTimeTextsEmpty = logData[i].noTime?"color:white;":"" %>
 			<div class="log_child_id_<%= logData[i].id %>">
-			<span class="log_child_time<%=hiddenTimeTexts%>" style="color:silver;"><%= logData[i].time %></span> <span class="log_child_content<%= logData[i].ob?' log_child_ob':'' %>"><span class="<%=hiddenTimeTexts%>">&lt;<%= pl.player %>&gt;</span> <%= logData[i].content %></span><br>
+			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span> <span class="log_child_content<%= logData[i].ob?' log_child_ob':'' %>"><span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span> <%= logData[i].content %></span><br>
 			</div>
 		<% } %>
 	</div>
@@ -1521,7 +1522,7 @@ function startRenderLog(){
 	
 		}
 	}
-	var cssText = '.hiddenTexts{opacity:0}'
+	var cssText = ''
 	for(var i in loaded_players){
 		var player=loaded_players[i]
 		cssText +='.log_child_id_'+player.id+'{ color: '+player.color+' ; '+(!player.visibility?'display:none ':'')+'}'
