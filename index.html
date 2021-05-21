@@ -1353,7 +1353,7 @@ function HTMLEncode(html) {
 }
 function startDecodeLog(){
 	needRedecode=false
-	function appendLogChild(playerName,playerID,playerTime,othersContent){
+	function appendLogChild(unique,playerName,playerID,playerTime,othersContent){
 		if(empty(playerName)&&empty(playerID))
 			return
 		if(empty(playerName))
@@ -1375,17 +1375,15 @@ function startDecodeLog(){
 			loaded_players[playerID].player=playerName
 		contents = othersContent.trim().split('\n')
 		if(contents.length==1){
-			loaded_data.push({id:playerID,time:playerTime,content:othersContent.trim(),noTime:false})
+			loaded_data.push({unique:unique,id:playerID,time:playerTime,content:othersContent.trim(),noTime:false})
 		}else{
 			var sequence=false
 			contents.forEach(content=>{
-				loaded_data.push({id:playerID,time:playerTime,content:content.trim(),noTime:sequence})
+				loaded_data.push({unique:unique,id:playerID,time:playerTime,content:content.trim(),noTime:sequence})
 				if(!sequence)
 					sequence=true
 			})
 		}
-		
-		//console.log("玩家："+playerName+" ID:"+playerID+" TIME:"+playerTime+" CONTENT:"+othersContent.trim())
 	}
 	currentLastColorNumber=0
 	loaded_data=[]
@@ -1396,11 +1394,12 @@ function startDecodeLog(){
 	var playerID=""
 	var playerTime=""
 	var preferMode=0
+	var unique=0
 	var decodeModes=[
-		function(){
+		function(unique){
 			var math=logLine.match(/^(.*?)?\((\d+)\) (\d+:\d+:\d+)$/i)//赵骰log格式
 			if(math!=null){
-				appendLogChild(playerName,playerID,playerTime,othersContent)
+				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName=math[1]
 				playerID=math[2]
 				playerTime=math[3]
@@ -1410,10 +1409,10 @@ function startDecodeLog(){
 				return true
 			}
 			return false
-		},function(){
+		},function(unique){
 			var math=logLine.match(/^(.*?)(\(\d+\))? (((\d{4}-\d{2}-\d{2} )|(\d{4}\/\d+\/\d+ ))?((\d+:\d+:\d+(\.0)?)|(\d+:\d+)))$/i)//溯洄、塔格式
 			if(math!=null){
-				appendLogChild(playerName,playerID,playerTime,othersContent)
+				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName=math[1]
 				playerID=math[2]
 				if(playerID==null){
@@ -1426,10 +1425,10 @@ function startDecodeLog(){
 				return true
 			}
 			return false
-		},function(){
+		},function(unique){
 			math=logLine.match(/^(<\d{4}-\d{2}-\d{2} \d+:\d+:\d+\.0>	)?(\[.*?\]):(.*)$/i)//塔格式
 			if(math!=null){
-				appendLogChild(playerName,playerID,playerTime,othersContent)
+				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName=math[2]
 				playerID=''
 				playerTime=math[1]
@@ -1442,10 +1441,10 @@ function startDecodeLog(){
 				return true
 			}
 			return false
-		},function(){
+		},function(unique){
 			math=logLine.match(/^(\d{4}-\d{2}-\d{2} \d+:\d+:\d+ )(.*?)\((\d+)\)$/i)//PC QQ 聊天记录导出格式
 			if(math!=null){
-				appendLogChild(playerName,playerID,playerTime,othersContent)
+				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName=math[2]
 				playerID=math[3]
 				playerTime=math[1]
@@ -1453,10 +1452,10 @@ function startDecodeLog(){
 				return true
 			}
 			return false
-		},function(){
+		},function(unique){
 			math=logLine.match(/^(((\d{4}-\d{2}-\d{2} )|(\d{4}\/\d+\/\d+ ))?((\d+:\d+:\d+(\.0)?)|(\d+:\d+)))?\s?<(.*?)>(.*)$/i)//本染色器，染色后的格式
 			if(math!=null){
-				appendLogChild(playerName,playerID,playerTime,othersContent)
+				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName=math[9]
 				playerTime=math[1]
 				othersContent=math[10]
@@ -1467,22 +1466,25 @@ function startDecodeLog(){
 	]
 log:for(var i in logContent){
 		logLine=logContent[i].trim()
-		if(decodeModes[preferMode]()){//使用最佳正则表达式
+		if(decodeModes[preferMode](unique)){//使用最佳正则表达式
+			unique++
 			continue log
 		}
 		for(var tryMode in decodeModes){//枚举最佳正则表达式
-			if(preferMode!=tryMode && decodeModes[tryMode]()){
+			if(preferMode!=tryMode && decodeModes[tryMode](unique)){
+				unique++
 				preferMode = tryMode
 				continue log
 			}
 		}
 		othersContent+=logLine+'\n'
 	}
-	appendLogChild(playerName,playerID,playerTime,othersContent)
+	appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 }
 function startRenderLog(){
 	String.prototype.replaceAll = function(s1,s2){return this.replace(new RegExp(s1,"gm"),s2);}
 	var data=[]
+	var jump_uniqueID=-1
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
 		if(!viewCode){
@@ -1493,8 +1495,10 @@ function startRenderLog(){
 		}
 		if(!viewOB){
 			if (newChild.content.startsWith('(')||newChild.content.startsWith('（')) {
-				continue
+				jump_uniqueID=newChild.unique
 			}
+			if(jump_uniqueID==newChild.unique)
+				continue
 		}
 		if(!viewCommand){
 			if (newChild.content.match(/^([\.。!！](\s+)?(ra|jrrp|st|team|rav|r|ri|ti|li|sc|ww|dx|nn|pc|log|set|setcoc|hp|san|mp|coc|name).*)/i)) {
