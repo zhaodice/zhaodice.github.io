@@ -1685,6 +1685,7 @@ function loadRemoteLogFile(server, file) {
 			var nowdate = parseInt(new Date() / 1000);
 			if (data.code == 0) {
 				var crc32FromServer=data.crc32;
+				liveTime = data.live;
 				showBg("[2/2]发现LOG，正在下载文件...");
 				var xhr = new XMLHttpRequest();
 				xhr.open('GET', downloadUrl, true);
