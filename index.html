@@ -1341,7 +1341,7 @@ function setElementVisibility(id,v){
 		document.getElementById(id).style.display="none";
 }
 function empty(s){
-	return s==null||s.trim()==''
+	return s==null||(s.constructor==String)&&(s.trim()=='')
 }
 //HTML转义
 function HTMLEncode(html) {
@@ -1358,12 +1358,17 @@ function startDecodeLog(){
 			return
 		if(empty(playerName))
 			playerName=playerID
-		if(empty(playerID))
-			playerID=crc32(playerName)
-		//playerName = HTMLEncode(playerName)
-		//playerID = HTMLEncode(playerID)
-		//playerTime = HTMLEncode(playerTime)
-		//othersContent = HTMLEncode(othersContent)
+		if(empty(playerID)){
+			for(plid in loaded_players){
+				if(loaded_players[plid].player==playerName){
+					playerID=loaded_players[plid].id
+					break
+				}
+			}
+			if(empty(playerID)){
+				playerID=crc32(playerName)
+			}
+		}
 		if(loaded_players[playerID]==null)
 			loaded_players[playerID]={
 				player:playerName,
