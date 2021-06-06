@@ -617,7 +617,11 @@ function init(){
 	},20)
 }
 function FUCK_Domestic_BROWSER(){
-	alert('请勿使用移动端的国产浏览器，因仅有部分浏览器支持blob流，可能不支持下载，建议电脑下载或手机使用 Chrome 或 Firefox 浏览器。')
+	const storageItem = "domesticBrowserNoticed";
+	if(!localStorage.getItem(storageItem)){
+		localStorage.setItem(storageItem,true);
+		alert('请勿使用移动端的国产浏览器，因仅有部分浏览器支持blob流，可能不支持下载，建议电脑下载或手机使用 Chrome 或 Firefox 浏览器。')
+	}
 }
 function FUCK_SB_Domestic_BROWSER(){
 	if (navigator.userAgent.indexOf("QQ") > -1 || navigator.userAgent.indexOf("MicroMessenger") > -1) {
