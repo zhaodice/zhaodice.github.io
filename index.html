@@ -727,7 +727,7 @@ function loadRemoteLogFile(server, file) {
 				});
 				xhr.addEventListener('error',
 				function(event) {
-					showBg("联网失败，请刷新网页或稍后重试");
+					showBg("联网失败，请刷新网页或稍后重试，或联系484546762获取帮助。");
 				});
 				xhr.send();
 				createTime = data.createTime;
@@ -746,7 +746,7 @@ function loadRemoteLogFile(server, file) {
 			}
 		}
 	}).fail(function(result, result1, result2) {
-		showBg("[错误]联网失败，请刷新网页或稍后重试");
+		showBg("[错误]联网失败，请刷新网页或稍后重试，或联系QQ484546762获取帮助。");
 	});
 }
 function getFileExt(filename) {
