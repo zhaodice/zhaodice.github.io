@@ -679,6 +679,7 @@ function loadRemoteLogFile(file) {
 	loadRemoteLogFile('', file)
 }
 function loadRemoteLogFile(server, file) {
+	const errMsg = "[错误]联网失败，请刷新网页或稍后重试，或联系QQ 484546762 获取帮助"
 	var fileInfoUrl = server + "logReader.php?m=metaData&id=" + file;
 	var downloadUrl = server + "logReader.php?m=rawData&id=" + file;
 	var showtime = function() {
@@ -727,7 +728,7 @@ function loadRemoteLogFile(server, file) {
 				});
 				xhr.addEventListener('error',
 				function(event) {
-					showBg("联网失败，请刷新网页或稍后重试");
+					showBg(errMsg);
 				});
 				xhr.send();
 				createTime = data.createTime;
@@ -746,7 +747,7 @@ function loadRemoteLogFile(server, file) {
 			}
 		}
 	}).fail(function(result, result1, result2) {
-		showBg("[错误]联网失败，请刷新网页或稍后重试");
+		showBg(errMsg);
 	});
 }
 function getFileExt(filename) {
