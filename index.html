@@ -727,7 +727,7 @@ function loadRemoteLogFile(server, file) {
 				});
 				xhr.addEventListener('error',
 				function(event) {
-					showBg("联网失败，请刷新网页或稍后重试，或联系484546762获取帮助。");
+					showBg("联网失败，请刷新网页或稍后重试");
 				});
 				xhr.send();
 				createTime = data.createTime;
@@ -746,7 +746,7 @@ function loadRemoteLogFile(server, file) {
 			}
 		}
 	}).fail(function(result, result1, result2) {
-		showBg("[错误]联网失败，请刷新网页或稍后重试，或联系QQ484546762获取帮助。");
+		showBg("[错误]联网失败，请刷新网页或稍后重试");
 	});
 }
 function getFileExt(filename) {
@@ -784,7 +784,7 @@ function F5() {
 		}
 	}
 }
-var serverList = ['https://s02.trpgbot.com/s/']
+var serverList = ['https://throbbing-dust-0c51.zhaodice.workers.dev/s/']
 var createTime = 0 //文件上传时间
 var leftTime = 0 //剩余时间
 var liveTime = 864000 //文件可以存活的时间
