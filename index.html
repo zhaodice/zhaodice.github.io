@@ -680,6 +680,7 @@ function loadRemoteLogFile(file) {
 }
 function loadRemoteLogFile(server, file) {
 	const errMsg = "[错误]联网失败，请刷新网页或稍后重试，或联系QQ 484546762 获取帮助"
+	const errMsg_503 = "[错误]服务器繁忙（Service Unavailable），建议避开晚上的压力高峰期，可刷新重试，或联系QQ 484546762 获取帮助"
 	var fileInfoUrl = server + "logReader.php?m=metaData&id=" + file;
 	var downloadUrl = server + "logReader.php?m=rawData&id=" + file;
 	var showtime = function() {
@@ -728,7 +729,11 @@ function loadRemoteLogFile(server, file) {
 				});
 				xhr.addEventListener('error',
 				function(event) {
-					showBg(errMsg);
+					if(xhr.status == 503){
+						showBg(errMsg_503);
+					}else{
+						showBg(errMsg);
+					}
 				});
 				xhr.send();
 				createTime = data.createTime;
@@ -747,7 +752,11 @@ function loadRemoteLogFile(server, file) {
 			}
 		}
 	}).fail(function(result, result1, result2) {
-		showBg(errMsg);
+		if(result.status == 503){
+			showBg(errMsg_503);
+		}else{
+			showBg(errMsg);
+		}
 	});
 }
 function getFileExt(filename) {
