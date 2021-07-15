@@ -703,6 +703,7 @@ function loadRemoteLogFile(server, file) {
 	(function(){
 		const maxAttempts=5;
 		var attempts;
+		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
 			doAjaxRequestLoop();
