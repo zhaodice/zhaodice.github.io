@@ -697,9 +697,7 @@ function loadRemoteLogFile(server, file) {
 			document.getElementById("leftTimeShow").innerHTML = "<font color='red'>超时！log文件的生死将任由我们处置了哦</font>"
 		}
 	}
-	showBg("联系QQ 484546762 获取日志");
-	//showBg("[1/2]正在搜索文件，请稍后....");
-	
+	showBg("[1/2]正在搜索文件，请稍后....");
 	(function(){
 		const maxAttempts=5;
 		var attempts;
@@ -747,7 +745,8 @@ function loadRemoteLogFile(server, file) {
 									document.getElementById("logContent").value = data;
 									init()
 								}else{
-									showBg("收到了log文件，但未能通过完整性测试，可能log下载到一半被劣质的网络环境生生给夹断了，请刷新重新尝试");
+									//showBg("收到了log文件，但未能通过完整性测试，可能log下载到一半被劣质的网络环境生生给夹断了，请刷新重新尝试");
+									doAjaxRequestLoop();
 								}
 							});
 							xhr.addEventListener('error',
