@@ -699,7 +699,7 @@ function loadRemoteLogFile(server, file) {
 	}
 	showBg("[1/2]正在搜索文件，请稍后....");
 	(function(){
-		const maxAttempts=5;
+		const maxAttempts=20;
 		var attempts;
 		doAjaxRequest();
 		function doAjaxRequest() {
@@ -713,7 +713,9 @@ function loadRemoteLogFile(server, file) {
 				showBg(errMsg);
 				return;
 			}else{
-				showBg("Trying again... :"+attempts+"/"+maxAttempts);
+				if(attempts>1){
+					showBg("Trying again...请等待 :"+attempts+"/"+maxAttempts);
+				}
 			}
 			$.ajax({
 				url: fileInfoUrl,
