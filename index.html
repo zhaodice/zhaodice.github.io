@@ -699,7 +699,7 @@ function loadRemoteLogFile(server, file) {
 	}
 	showBg("[1/2]正在搜索文件，请稍后....");
 	(function(){
-		const maxAttempts=10;
+		const maxAttempts=30;
 		var attempts;
 		var loaded=false;
 		var timeID=-1;
@@ -716,7 +716,7 @@ function loadRemoteLogFile(server, file) {
 			if(timeID!=-1){
 				clearTimeout(timeID);
 			}
-			timeID=setTimeout(doAjaxRequestLoop,2000);
+			timeID=setTimeout(doAjaxRequestLoop,5000);
 		}
 		function doAjaxRequestLoop() {
 			if(loaded){
