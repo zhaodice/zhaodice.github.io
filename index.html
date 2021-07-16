@@ -713,17 +713,10 @@ function loadRemoteLogFile(server, file) {
 			doAjaxRequestLoop();
 		}
 		function doAjaxRequestLoopDelay() {
+			attempts += 1;
 			if(timeID!=-1){
 				clearTimeout(timeID);
 			}
-			timeID=setTimeout(doAjaxRequestLoop,5000);
-		}
-		function doAjaxRequestLoop() {
-			if(loaded){
-				return;
-			}
-			attempts += 1;
-			showBg("[1/2]正在搜索文件，请稍后....");
 			if (attempts > maxAttempts) {
 				showBg(errMsg);
 				return;
@@ -732,9 +725,16 @@ function loadRemoteLogFile(server, file) {
 					showBg("Trying again...请等待 :"+attempts+"/"+maxAttempts);
 				}
 			}
+			timeID=setTimeout(doAjaxRequestLoop,5000);
+		}
+		function doAjaxRequestLoop() {
+			if(loaded){
+				return;
+			}
 			step_1();
 		}
 		function step_1(){
+			showBg("[1/2]正在搜索文件，请稍后....");
 			if(receivedMetaData==null){
 				$.ajax({
 					url: fileInfoUrl,
@@ -757,11 +757,11 @@ function loadRemoteLogFile(server, file) {
 			}
 		}
 		function step_2(data){
+			showBg("[2/2]发现LOG，正在下载文件...");
 			var nowdate = parseInt(new Date() / 1000);
 			if (data.code == 0) {
 				var crc32FromServer=data.crc32;
 				liveTime = data.live;
-				showBg("[2/2]发现LOG，正在下载文件...");
 				var xhr = new XMLHttpRequest();
 				xhr.open( "GET", downloadUrl, true);
 				xhr.addEventListener('progress',
