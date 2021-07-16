@@ -702,7 +702,8 @@ function loadRemoteLogFile(server, file) {
 		var attempts;
 		var loaded=false;
 		var timeID=-1;
-		//var receivedMetaData=null;
+		var receivedMetaData=null;
+		/*
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -732,7 +733,7 @@ function loadRemoteLogFile(server, file) {
 				}
 			}
 			//step_1();
-		}/*
+		}
 		function step_1(){
 			if(receivedMetaData==null){
 				showBg("[1/2]正在搜索文件，请稍后....");
