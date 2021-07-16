@@ -697,12 +697,12 @@ function loadRemoteLogFile(server, file) {
 			document.getElementById("leftTimeShow").innerHTML = "<font color='red'>超时！log文件的生死将任由我们处置了哦</font>"
 		}
 	}
-	showBg("[1/2]正在搜索文件，请稍后....");
-	(function(){
+	var package=(function(){
 		const maxAttempts=30;
 		var attempts;
 		var loaded=false;
 		var timeID=-1;
+		var receivedMetaData=null;
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -723,6 +723,7 @@ function loadRemoteLogFile(server, file) {
 				return;
 			}
 			attempts += 1;
+			showBg("[1/2]正在搜索文件，请稍后....");
 			if (attempts > maxAttempts) {
 				showBg(errMsg);
 				return;
@@ -731,71 +732,83 @@ function loadRemoteLogFile(server, file) {
 					showBg("Trying again...请等待 :"+attempts+"/"+maxAttempts);
 				}
 			}
-			$.ajax({
-				url: fileInfoUrl,
-				type: "get",
-				dataType: "json",
-				timeout:10000,
-				success: function(data) {
-					if(data == undefined){
-						doAjaxRequestLoopDelay();
-					}else{
-						var nowdate = parseInt(new Date() / 1000);
-						if (data.code == 0) {
-							var crc32FromServer=data.crc32;
-							liveTime = data.live;
-							showBg("[2/2]发现LOG，正在下载文件...");
-							var xhr = new XMLHttpRequest();
-							xhr.open('GET', downloadUrl, true);
-							xhr.addEventListener('progress',
-							function(event) {
-								const size = event.lengthComputable?event.total:data.size //获取文件总大小
-								setBgProcess((((event.target.response.byteLength()) / size) * 100).toFixed(3))
-							},
-							false);
-							xhr.addEventListener('loadend',
-							function(event) {
-								var data = event.target.response;
-								var crc32FromLocal = crc32(data);
-								if(crc32FromServer==crc32FromLocal){//crc完整性校验成功
-									loaded=true
-									document.getElementById("logContent").value = data;
-									init()
-								}else{
-									//showBg("收到了log文件，但未能通过完整性测试，可能log下载到一半被劣质的网络环境生生给夹断了，请刷新重新尝试");
-									doAjaxRequestLoopDelay();
-								}
-							});
-							xhr.addEventListener('error',
-							function(event) {
-								doAjaxRequestLoopDelay();
-							});
-							xhr.ontimeout = function(event){
-							　　doAjaxRequestLoopDelay();
-							}
-							xhr.timeout = 10000;
-							xhr.send();
-							createTime = data.createTime;
-							logName = data.fileName;
-							leftTime = liveTime - (nowdate - createTime);
-							if (leftTimeInterval != 0) {
-								clearInterval(leftTimeInterval);
-							}
-							leftTimeInterval = setInterval(function() {
-								showtime();
-								leftTime--;
-							},
-							1000); //反复执行函数本身
-						} else {
-							showBg(data.content);
+			step_1();
+		}
+		function step_1(){
+			if(receivedMetaData==null){
+				$.ajax({
+					url: fileInfoUrl,
+					type: "get",
+					dataType: "json",
+					timeout:10000,
+					success: function(data) {
+						if(data == undefined){
+							doAjaxRequestLoopDelay();
+						}else{
+							receivedMetaData = data;
+							step_2(receivedMetaData);
 						}
 					}
-				}
-			}).fail(function(result, result1, result2) {
-				doAjaxRequestLoopDelay();
-			});
+				}).fail(function(result, result1, result2) {
+					doAjaxRequestLoopDelay();
+				});
+			}else{
+				step_2(receivedMetaData);
+			}
 		}
-	})();
+		function step_2(data){
+			var nowdate = parseInt(new Date() / 1000);
+			if (data.code == 0) {
+				var crc32FromServer=data.crc32;
+				liveTime = data.live;
+				showBg("[2/2]发现LOG，正在下载文件...");
+				var xhr = new XMLHttpRequest();
+				xhr.open( "GET", downloadUrl, true);
+				xhr.addEventListener('progress',
+				function(event) {
+					const size = event.lengthComputable?event.total:data.size //获取文件总大小
+					setBgProcess((((event.target.response.byteLength()) / size) * 100).toFixed(3))
+				},
+				false);
+				xhr.addEventListener('loadend',
+				function(event) {
+					var data = event.target.response;
+					var crc32FromLocal = crc32(data);
+					if(crc32FromServer==crc32FromLocal){//crc完整性校验成功
+						loaded=true
+						document.getElementById("logContent").value = data;
+						init()
+					}else{
+						//showBg("收到了log文件，但未能通过完整性测试，可能log下载到一半被劣质的网络环境生生给夹断了，请刷新重新尝试");
+						doAjaxRequestLoopDelay();
+					}
+				});
+				xhr.addEventListener('error',
+				function(event) {
+					doAjaxRequestLoopDelay();
+				});
+				xhr.ontimeout = function(event){
+				　　doAjaxRequestLoopDelay();
+				}
+				xhr.timeout = 10000;
+				xhr.send();
+				createTime = data.createTime;
+				logName = data.fileName;
+				leftTime = liveTime - (nowdate - createTime);
+				if (leftTimeInterval != 0) {
+					clearInterval(leftTimeInterval);
+				}
+				leftTimeInterval = setInterval(function() {
+					showtime();
+					leftTime--;
+				},
+				1000); //反复执行函数本身
+			} else {
+				showBg(data.content);
+			}
+		}
+	});
+	package();
 }
 function getFileExt(filename) {
 	var index = filename.lastIndexOf(".");
