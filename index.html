@@ -763,7 +763,7 @@ function loadRemoteLogFile(server, file) {
 				liveTime = data.live;
 				showBg("[2/2]发现LOG，正在下载文件...");
 				var xhr = new XMLHttpRequest();
-				xhr.open('GET', downloadUrl, true);
+				xhr.open( "GET", downloadUrl, true);
 				xhr.addEventListener('progress',
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
