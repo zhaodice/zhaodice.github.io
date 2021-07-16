@@ -702,14 +702,21 @@ function loadRemoteLogFile(server, file) {
 		const maxAttempts=10;
 		var attempts;
 		var loaded=false;
+		var timeID=-1;
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
 			loaded = false;
+			if(timeID!=-1){
+				clearTimeout(timeID);
+			}
 			doAjaxRequestLoop();
 		}
 		function doAjaxRequestLoopDelay() {
-			setTimeout(doAjaxRequestLoop,2000);
+			if(timeID!=-1){
+				clearTimeout(timeID);
+			}
+			timeID=setTimeout(doAjaxRequestLoop,2000);
 		}
 		function doAjaxRequestLoop() {
 			if(loaded){
