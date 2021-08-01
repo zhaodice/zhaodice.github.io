@@ -330,40 +330,40 @@ var viewCode = document.getElementById('visibility_CODE').checked
 var viewOB = document.getElementById('visibility_OB').checked
 var viewCommand = document.getElementById('visibility_COMMAND').checked
 var mode_code
+var startRenderLogTimer = -1
+function setStartRenderingButtonEnable(enbale){
+	setElementVisibility('startRenderingButton',enbale)
+	needRerender=enbale
+}
 function _color_on_changed(e,id){
 	loaded_players[id].color = e.value //修改玩家颜色
-	startRenderLog() //更新CSS应用渲染
+	setStartRenderingButtonEnable(true)
 }
 function _visibility_on_changed(checkbox,id){
 	loaded_players[id].visibility = checkbox.checked //修改玩家是否可视
-	startRenderLog() //更新CSS应用渲染
+	setStartRenderingButtonEnable(true)
 }
 function _player_on_changing(textarea,id){
 	loaded_players[id].player = textarea.innerText //修改玩家名称
-	setElementVisibility('startRenderingButton',true)
-	needRerender=true
+	setStartRenderingButtonEnable(true)
 }
 function _log_text_changing(){
 	needRedecode=true
-	setElementVisibility('startRenderingButton',true)
-	needRerender=true
+	setStartRenderingButtonEnable(true)
 }
 function _on_switch_changed(e){//开关被改变
 	if(e.id=='visibility_TIME'){
 		viewTime=e.checked
-		startRenderLog() //更新CSS应用渲染
+		startRenderLog(false) //更新CSS应用渲染
 	}else if(e.id=='visibility_CODE'){
 		viewCode=e.checked
-		setElementVisibility('startRenderingButton',true)
-		needRerender=true
+		setStartRenderingButtonEnable(true)
 	}else if(e.id=='visibility_OB'){
 		viewOB=e.checked
-		setElementVisibility('startRenderingButton',true)
-		needRerender=true
+		setStartRenderingButtonEnable(true)
 	}else if(e.id=='visibility_COMMAND'){
 		viewCommand=e.checked
-		setElementVisibility('startRenderingButton',true)
-		needRerender=true
+		setStartRenderingButtonEnable(true)
 	}
 	console.log(e.id,e.checked)
 }
@@ -576,6 +576,8 @@ function startRenderLog(){
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
+	//染色完毕，关闭按钮
+	setStartRenderingButtonEnable(false)
 }
 
 function startRenderPlayerList(){
@@ -596,15 +598,16 @@ function switch_to_mode(){
 	setElementVisibility('div_log_code',mode_code)
 }
 function init(){
+	if(startRenderLogTimer != -1){
+		clearTimeout(startRenderLogTimer)
+	}
 	showBg("正在进行染色计算中...");
 	setTimeout(function(){
 		if(needRedecode){
 			startDecodeLog()//开始解码log文本
+			startRenderPlayerList()//开始显示player列表
 		}
 		startRenderLog()//开始插入css进行动态染色
-		startRenderPlayerList()//开始显示player列表
-		setElementVisibility('startRenderingButton',false)
-		needRerender=false
 		switch_to_colored_view()
 		closeBg();
 	},20)
