@@ -767,6 +767,9 @@ function loadRemoteLogFile(server, file) {
 			var nowdate = parseInt(new Date() / 1000);
 			if (data.code == 0) {
 				var crc32FromServer=data.crc32;
+				if(data.redirectDownloadUrl){
+					downloadUrl=data.redirectDownloadUrl;//重定向下载地址
+				}
 				liveTime = data.live;
 				var xhr = new XMLHttpRequest();
 				xhr.open( "GET", downloadUrl, true);
@@ -779,8 +782,7 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
-					var crc32FromLocal = crc32(data);
-					if(crc32FromServer==crc32FromLocal){//crc完整性校验成功
+					if(crc32FromServer==0 || crc32FromServer==crc32(data)){//crc完整性校验成功
 						loaded=true
 						document.getElementById("logContent").value = data;
 						init()
