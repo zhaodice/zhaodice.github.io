@@ -228,7 +228,7 @@ function closeBg() {
 <p>v0.1 beta by 赵怡然</p>
 </div>
 <p align="center" class="STYLE3">下载文件时请使用标准“Firfox”或“Chrome”浏览器，其他国产浏览器可能导致下载失败。</p>
-<h3 align="center" id="leftTimeShow"></h3>
+<h4 align="center" id="leftTimeShow"></h4>
 <p align="center">
 <a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
 <a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC染色文件</a>
@@ -700,7 +700,7 @@ function loadRemoteLogFile(server, file) {
 			leftm = Math.floor(leftTime / (60) % 60),
 			//计算分钟数
 			lefts = Math.floor(leftTime % 60); //计算秒数
-			document.getElementById("leftTimeShow").innerHTML = "警告：<font color='red'>[" + leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts + "秒]</font>后文件将被删除！建议立即下载。"; //返回倒计时的字符串
+			document.getElementById("leftTimeShow").innerHTML = "日志文件被承诺存储在<font color='red'>[" + leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts + "秒]</font>内不会被删除，但还是建议及时存储和备份。"; //返回倒计时的字符串
 		} else {
 			document.getElementById("leftTimeShow").innerHTML = "<font color='red'>日志文件存放时间过长，该文件可能将在未来被清理，请及时下载和备份</font>"
 		}
