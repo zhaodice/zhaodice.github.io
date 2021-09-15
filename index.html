@@ -700,7 +700,7 @@ function loadRemoteLogFile(server, file) {
 			leftm = Math.floor(leftTime / (60) % 60),
 			//计算分钟数
 			lefts = Math.floor(leftTime % 60); //计算秒数
-			document.getElementById("leftTimeShow").innerHTML = "日志文件被承诺存储在<font color='red'>[" + leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts + "秒]</font>内不会被删除，但还是建议及时存储和备份。"; //返回倒计时的字符串
+			document.getElementById("leftTimeShow").innerHTML = "日志文件被承诺在<font color='red'>[" + leftd + "天" + lefth + "小时" + leftm + "分钟" + lefts + "秒]</font>内不会被删除，但还是建议及时存储和备份。"; //返回倒计时的字符串
 		} else {
 			document.getElementById("leftTimeShow").innerHTML = "<font color='red'>日志文件存放时间过长，该文件可能将在未来被清理，请及时下载和备份</font>"
 		}
