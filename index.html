@@ -435,7 +435,7 @@ function startDecodeLog(){
 	var playerName=""
 	var playerID=""
 	var playerTime=""
-	var preferMode=0
+	var preferMode=-1
 	var unique=0
 	var decodeModes=[
 		function(unique){
@@ -508,14 +508,17 @@ function startDecodeLog(){
 	]
 log:for(var i in logContent){
 		logLine=logContent[i].trim()
-		if(decodeModes[preferMode](unique)){//使用最佳正则表达式
-			unique++
-			continue log
-		}
-		for(var tryMode in decodeModes){//枚举最佳正则表达式
-			if(preferMode!=tryMode && decodeModes[tryMode](unique)){
+		if(preferMode==-1){
+			for(var tryMode in decodeModes){//遍历最佳正则表达式
+				if(decodeModes[tryMode](unique)){
+					unique++
+					preferMode = tryMode
+					continue log
+				}
+			}
+		}else{
+			if(decodeModes[preferMode](unique)){//使用最佳正则表达式
 				unique++
-				preferMode = tryMode
 				continue log
 			}
 		}
