@@ -546,6 +546,14 @@ log:for(var i in logContent){
 
 function startRenderLog(){
 	String.prototype.replaceAll = function(s1,s2){return this.replace(new RegExp(s1,"gm"),s2);}
+	String.prototype.matchAll = function(reg) {
+	  var res = []
+	  var match
+	  while(match = reg.exec(this)) {
+		res.push(match)
+	  }
+	  return res
+	}
 	var data=[]
 	var jump_uniqueID=-1
 	for(var i in loaded_data){
