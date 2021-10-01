@@ -547,7 +547,7 @@ function startRenderLog(){
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
 		if(!viewCode){
-			//newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
+			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
 				continue
 			}
