@@ -121,43 +121,51 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             });
 
             // Embed all images using Data URLs
+
             var images = Array();
             var img = markup.find('img');
             for (var i = 0; i < img.length; i++) {
                 // Calculate dimensions of output image
-                var w = Math.min(img[i].width, options.maxWidth);
-                var h = img[i].height * (w / img[i].width);
-                // Create canvas for converting image to data URL
-                var canvas = document.createElement("CANVAS");
-                canvas.width = w;
-                canvas.height = h;
-                // Draw image to canvas
-                var context = canvas.getContext('2d');
-                context.drawImage(img[i], 0, 0, w, h);
-                // Get data URL encoding of image
-                var uri = canvas.toDataURL("image/png/jpg");
-                $(img[i]).attr("src", img[i].src);
-                img[i].width = w;
-                img[i].height = h;
-                // Save encoded image to array
-                images[i] = {
-                    type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
-                    encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
-                    location: $(img[i]).attr("src"),
-                    data: uri.substring(uri.indexOf(",") + 1)
-                };
+				try{
+					var w = Math.min(img[i].width, options.maxWidth);
+					var h = img[i].height * (w / img[i].width);
+					// Create canvas for converting image to data URL
+					var canvas = document.createElement("CANVAS");
+					canvas.width = w;
+					canvas.height = h;
+					// Draw image to canvas
+					var context = canvas.getContext('2d');
+					context.drawImage(img[i], 0, 0, w, h);
+					// Get data URL encoding of image
+					var uri = canvas.toDataURL("image/png/jpg");
+					$(img[i]).attr("src", img[i].src);
+					img[i].width = w;
+					img[i].height = h;
+					// Save encoded image to array
+					images[i] = {
+						type: uri.substring(uri.indexOf(":") + 1, uri.indexOf(";")),
+						encoding: uri.substring(uri.indexOf(";") + 1, uri.indexOf(",")),
+						location: $(img[i]).attr("src"),
+						data: uri.substring(uri.indexOf(",") + 1)
+					};
+				}catch(e){
+					img[i].remove();
+				}
             }
 
             // Prepare bottom of mhtml file with image data
-            var mhtmlBottom = "\n";
-            for (var i = 0; i < images.length; i++) {
-                mhtmlBottom += "--NEXT.ITEM-BOUNDARY\n";
-                mhtmlBottom += "Content-Location: " + images[i].location + "\n";
-                mhtmlBottom += "Content-Type: " + images[i].type + "\n";
-                mhtmlBottom += "Content-Transfer-Encoding: " + images[i].encoding + "\n\n";
-                mhtmlBottom += images[i].data + "\n\n";
-            }
-            mhtmlBottom += "--NEXT.ITEM-BOUNDARY--";
+			try{
+				var mhtmlBottom = "\n";
+				for (var i = 0; i < images.length; i++) {
+					mhtmlBottom += "--NEXT.ITEM-BOUNDARY\n";
+					mhtmlBottom += "Content-Location: " + images[i].location + "\n";
+					mhtmlBottom += "Content-Type: " + images[i].type + "\n";
+					mhtmlBottom += "Content-Transfer-Encoding: " + images[i].encoding + "\n\n";
+					mhtmlBottom += images[i].data + "\n\n";
+				}
+				mhtmlBottom += "--NEXT.ITEM-BOUNDARY--";
+			}catch(e){
+			}
 
             // Aggregate parts of the file together
             var fileContent = static.mhtml.top.replace("_html_", static.mhtml.head.replace("_styles_", styles) + static.mhtml.body.replace("_body_", markup.html())) + mhtmlBottom;
@@ -230,7 +238,7 @@ function closeBg() {
 <h4 align="center" id="leftTimeShow"></h4>
 <p align="center">
 <a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
-<a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC染色文件</a>
+<a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC无图染色文件</a>
 </p>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onClick="document.getElementById('logContent').value=''" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
@@ -307,7 +315,10 @@ function closeBg() {
 			<% var hiddenTimeTextsSilver = logData[i].noTime?"color:white;":"color:silver;" %>
 			<% var hiddenTimeTextsEmpty = logData[i].noTime?"color:white;":"" %>
 			<div class="log_child_id_<%= logData[i].id %>">
-			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span> <span class="log_child_content<%= logData[i].ob?' log_child_ob':'' %>"><span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span> <%= logData[i].content %></span><br>
+			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span>
+			<span class="log_child_content<%= logData[i].ob?' log_child_ob':'' %>">
+				<span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span><%:= logData[i].content %>
+			</span><br>
 			</div>
 		<% } %>
 	</div>
@@ -536,7 +547,7 @@ function startRenderLog(){
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
 		if(!viewCode){
-			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
+			//newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
 				continue
 			}
@@ -558,13 +569,25 @@ function startRenderLog(){
 			if(key!=loaded_players[key].player)
 				newChild.content=(newChild.content+" ").replaceAll(key+" ","@"+loaded_players[key].player+" ")
 		})
-		
+		//http://gchat.qpic.cn/
+		newChild.content = HTMLEncode(newChild.content)
+		var imageMatch = [...newChild.content.matchAll(/\[mirai:image:\{(.*?)\}\.(.*?)\]/g)]
+		for(var j=0;j<imageMatch.length;j++){
+			var url = "http://gchat.qpic.cn/gchatpic_new/0/0-0-"+imageMatch[j][1].replaceAll('-','')+"/0?term=2"
+			var html = "<br><img class='suitableImage' src='"+url+"'>"
+			newChild.content=newChild.content.replace(imageMatch[j][0],html)
+		}
+		imageMatch = [...newChild.content.matchAll(/\[pic={(.*?)}.(.*?),.*,.*\]/g)]
+		for(var j=0;j<imageMatch.length;j++){
+			var url = "http://gchat.qpic.cn/gchatpic_new/0/0-0-"+imageMatch[j][1].replaceAll('-','')+"/0?term=2"
+			var html = "<br><img class='suitableImage' src='"+url+"'>"
+			newChild.content=newChild.content.replace(imageMatch[j][0],html)
+		}
 		data.push(newChild)
 	}
 
 	// 模板渲染
-	var template1 = document.getElementById('template_colored_preview').innerHTML;
-	document.getElementById('div_log_content').innerHTML=template(template1,{logData:data,playerData:loaded_players});
+	document.getElementById('div_log_content').innerHTML=template(document.getElementById('template_colored_preview').innerHTML,{logData:data,playerData:loaded_players});
 	function addCSS(cssText){
 		var style = document.getElementById('dynamicLogStyle')
 		style.type = 'text/css'; //这里必须显示设置style元素的type属性为text/css，否则在ie中不起作用
@@ -574,7 +597,7 @@ function startRenderLog(){
 	
 		}
 	}
-	var cssText = ''
+	var cssText = '.suitableImage {max-height:150px;overflow:hidden;position: relative;}'
 	for(var i in loaded_players){
 		var player=loaded_players[i]
 		cssText +='.log_child_id_'+player.id+'{ color: '+player.color+' ; '+(!player.visibility?'display:none ':'')+'}'
@@ -582,6 +605,21 @@ function startRenderLog(){
 	if(!viewTime){
 		cssText +='.log_child_time{display:none;}'
 	}
+	//加载图片
+	/*
+	var images = document.body.getElementsByClassName("suitableImage")
+	var loadImage = function(image){
+		var url = image.attributes['load'].value
+		crossAccess(image.attributes['load'].value,function(e){
+			image.src=e;
+		});
+	}
+	
+	for(var i=0;i<images.length;i++){
+		loadImage(images[i])
+	}*/
+	
+	
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
@@ -856,6 +894,26 @@ function F5() {
 			loadRemoteLogFile('', remoteCode)
 		}
 	}
+}
+//http://gchat.qpic.cn/gchatpic_new/0/0-0-F623B8C83BCD0F4DF3E47AF0921BE2DE/0?term=2
+//.suitableImage
+function crossAccess(url,callback){
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', "https://rough-fog-39ae.zhaodice.workers.dev/"+url);//http://127.0.0.1:13483
+	xhr.responseType = 'arraybuffer';
+	xhr.onreadystatechange = function getPdfOnreadystatechange(e) {
+		console.log("xhr.readyState:"+xhr.readyState+"   xhr.status:"+xhr.status);
+		if (xhr.readyState === 4) {
+		  if (xhr.status === 200) {
+			var data = (xhr.mozResponseArrayBuffer || xhr.mozResponse ||
+						xhr.responseArrayBuffer || xhr.response);
+			callback("data:image/png;base64,"+window.btoa(String.fromCharCode(...new Uint8Array(data))))
+		  } else {
+			callback(null)
+		  }
+		}
+	};
+	xhr.send(null);
 }
 //var serverList = ['https://s02-worker.trpgbot.com/s/']
 var serverList = ['https://s02.trpgbot.com/s/']
