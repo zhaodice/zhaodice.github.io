@@ -853,11 +853,11 @@ function startRenderLog(){
 	if(!viewTime){
 		cssText +='.log_child_time{display:none;}'
 	}
-  
 	$("img.lazy").lazyload({
-            threshold :20
+		effect : "fadeIn",
+		threshold : 180,
+		threshold :20
     }); 
-	
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
