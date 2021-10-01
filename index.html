@@ -550,6 +550,8 @@ function startRenderLog(){
 	var jump_uniqueID=-1
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
+		newChild.content = HTMLEncode(newChild.content)
+		newChild.content = replaceImageRobotCodeToHTML(newChild.content)
 		if(!viewCode){
 			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
@@ -574,8 +576,7 @@ function startRenderLog(){
 				newChild.content=(newChild.content+" ").replaceAll(key+" ","@"+loaded_players[key].player+" ")
 		})
 		//http://gchat.qpic.cn/
-		newChild.content = HTMLEncode(newChild.content)
-		newChild.content = replaceImageRobotCodeToHTML(newChild.content)
+
 		data.push(newChild)
 	}
 
