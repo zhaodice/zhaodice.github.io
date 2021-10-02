@@ -1011,6 +1011,7 @@ if(_EnvLogDownloader){
 //init()
 </script>
 <script>
+var isLoading=false;
 String.prototype.byteLength = function() {
     var byteLen = 0;
     for (var i = 0; i < this.length; i++) {
@@ -1028,8 +1029,10 @@ function loadRemoteLogFile(file) {
 	loadRemoteLogFile('', file)
 }
 function loadRemoteLogFile(server, file) {
+	if(isLoading){
+		return;
+	}
 	const errMsg = "[错误]联网失败，请刷新网页或稍后重试，或联系QQ 357826834 获取日志"
-	const errMsg_503 = "[错误]服务器繁忙（Service Unavailable），建议避开晚上的压力高峰期，可刷新重试，或联系QQ 357826834 获取日志"
 	var fileInfoUrl = server + "logReader.php?m=metaData&id=" + file + "&r=" + Math.random();
 	var downloadUrl = server + "logReader.php?m=rawData&id=" + file + "&r=" + Math.random();
 	var showtime = function() {
@@ -1046,6 +1049,7 @@ function loadRemoteLogFile(server, file) {
 			document.getElementById("leftTimeShow").innerHTML = "<font color='red'>日志文件存放时间过长，该文件可能将在未来被清理，请及时下载和备份</font>"
 		}
 	}
+	
 	var package=(function(){
 		const maxAttempts=30;
 		var attempts;
@@ -1069,6 +1073,7 @@ function loadRemoteLogFile(server, file) {
 			}
 			if (attempts > maxAttempts) {
 				showBg(errMsg);
+				isLoading=false;
 				return;
 			}else{
 				if(attempts>1){
@@ -1134,7 +1139,7 @@ function loadRemoteLogFile(server, file) {
 						init()
 					}else{
 						showBg("下载log遭遇网络问题，请稍后重试、或者让其他人打开、或者科学上网");
-						//doAjaxRequestLoopDelay();
+						isLoading=false;
 					}
 				});
 				xhr.addEventListener('error',
