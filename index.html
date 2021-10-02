@@ -485,14 +485,12 @@ function closeBg() {
 	<p>v0.1 beta by 赵怡然</p>
 	</div>
 	<p align="center" class="STYLE3">下载文件时请使用标准“Firfox”或“Chrome”浏览器，其他国产浏览器可能导致下载失败。</p>
+	<p align="center" class="STYLE3">若要另存为带图log，请先完整浏览一遍网页，确保图片全部加载完毕后，按下F9进入沉浸模式，右键另存为，格式为“网页，全部(*.htm;*.html)或网页（单个文件）(.*mhtml)”即可带图保存</p>
 	<h4 align="center" id="leftTimeShow"></h4>
 	<div align="center">
 		<div id="normalFunction">
 			<a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
 			<a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC无图染色文件</a>
-		</div>
-		<div id="specialFunction">
-			<a class="button button-primary button-pill" onClick="exportHTML()">下载为HTML带图染色文件</a>
 		</div>
 	</div>
 	<textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
@@ -589,7 +587,6 @@ function closeBg() {
 </div>
 <script>
 const colors=['#0080ff','#228B22','#FF1493','#FFA500','#800080','#00008B','#9ACD32','#808000','#BC8F8F','#008080','#FF0000','#8B0000','#000000','#6068aa','#72B2E1','#60CCA8','#7F7F7F','#FCD18F','#aa43ff','#eb74a1']
-var _EnvLogDownloader=(typeof _EnvLogDownloader == "undefined")?false:_EnvLogDownloader
 var needRerender=true
 var needRedecode=true//需要重新对文本域解码
 var currentLastColorNumber //最后自动选择的颜色
@@ -970,17 +967,7 @@ function exportTXT(){
 	}
 	exportRaw(logName,document.getElementById('logContent').value)
 }
-function exportHTML(){
-	if(!_EnvLogDownloader){
-		alert("由于浏览器的通用安全限制，本功能仅限【定制浏览器】使用")
-	}else{
-		if(!needRedecode && !needRerender){
-			startScan()
-		}else{
-			alert("本功能需要染色完毕后才能使用")
-		}
-	}
-}
+
 //沉浸模式/普通模式
 function setEmergedMode(v){
 	if(v==null){
@@ -995,19 +982,13 @@ function setEmergedMode(v){
 	}
 	loadLazyLoad()
 }
-//F11 进入沉浸模式 或者执行 setEmergedMode(true)
+//F9 进入沉浸模式 或者执行 setEmergedMode(true)
 document.onkeydown = function(){
-	if(event.keyCode==122){
+	if(event.keyCode==120){
 		setEmergedMode(null)
 	}
 	return true
 }
-if(_EnvLogDownloader){
-	$("#normalFunction").hide()
-}else{
-	$("#specialFunction").hide()
-}
-//document.getElementById('logContent').value=XXXXX
 //init()
 </script>
 <script>
@@ -1197,41 +1178,6 @@ function F5() {
 		} else {
 			loadRemoteLogFile('', remoteCode)
 		}
-	}
-}
-//http://gchat.qpic.cn/gchatpic_new/0/0-0-F623B8C83BCD0F4DF3E47AF0921BE2DE/0?term=2
-//.suitableImage
-function convertImagesToBase64 (content) {
-	  var dynamicImageItems = document.getElementById("dynamicImageItems")
-	  //var cssText="";
-      var regularImages = content.querySelectorAll("img");
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      [].forEach.call(regularImages, function (imgElement) {
-        // preparing canvas for drawing
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        canvas.width = imgElement.width//imgElement.naturalWidth;
-        canvas.height = imgElement.height//imgElement.naturalHeight;
-        ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
-        var dataURL = canvas.toDataURL();
-		var className = "IMG_"+crc32(imgElement.getAttribute('data-original'))
-		imgElement.setAttribute('src',dataURL)
-		$(imgElement).addClass(className);
-		//cssText+="."+className+"{background: url("+dataURL+");height: -moz-available;width: -moz-available;background-size: contain;}"
-      })
-	  //dynamicImageItems.innerHTML = cssText;
-      canvas.remove();
-}
-function getFullContentHTML(){
-	try{
-		var content = document.getElementById('content');
-		convertImagesToBase64(content);//转换图片为base64
-		var css = document.getElementById("dynamicLogStyle").innerHTML
-		//var css2 = document.getElementById("dynamicImageItems").innerHTML
-		content = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+css+'</style></head>'+ content.innerHTML +'</html>'
-		return content
-	}catch(e){
-		return "ERROR"
 	}
 }
 //var serverList = ['https://s02-worker.trpgbot.com/s/']
