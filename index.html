@@ -865,7 +865,7 @@ function startRenderLog(){
 function loadLazyLoad(){
 	$("img.lazy").lazyload({
 		effect : "fadeIn",
-		threshold : 180,
+		threshold : document.documentElement.clientHeight+180,
     }); 
 }
 function startRenderPlayerList(){
