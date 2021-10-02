@@ -119,12 +119,13 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
             // Remove hidden elements from the output
             markup.each(function() {
                 var self = $(this);
-                if (self.is(':hidden'))
+                if (self.is(':hidden')){
                     self.remove();
+				}
             });
-
+			markup.find('.noDoc').remove() //don't be in doc
+			
             // Embed all images using Data URLs
-
             var images = Array();
             var img = markup.find('img');
             for (var i = 0; i < img.length; i++) {
@@ -152,7 +153,7 @@ if (typeof jQuery !== "undefined" && typeof saveAs !== "undefined") {
 						data: uri.substring(uri.indexOf(",") + 1)
 					};
 				}catch(e){
-					img[i].remove();
+					//img[i].remove();
 				}
             }
 
@@ -830,8 +831,9 @@ function startRenderLog(){
 		}
 		//将纯ID变为艾特具体昵称
 		Object.keys(loaded_players).forEach(key=>{
-			if(key!=loaded_players[key].player)
+			if(key!=loaded_players[key].player){
 				newChild.content=(newChild.content+" ").replaceAll(key+" ","@"+loaded_players[key].player+" ")
+			}
 		})
 		//http://gchat.qpic.cn/
 
@@ -856,6 +858,13 @@ function startRenderLog(){
 	}
 	if(!viewTime){
 		cssText +='.log_child_time{display:none;}'
+	}
+	//标记所有纯图片，用于导出CSS时noDoc内批量隐藏
+	v=$(".log_child_content")
+	for(var i=0;i<v.length;i++){
+		if(v[i].firstElementChild.innerText==v[i].innerText){
+			$(v[i].parentElement).addClass("noDoc")
+		}
 	}
 	loadLazyLoad()
 	//使用样式进行染色
