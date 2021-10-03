@@ -941,7 +941,7 @@ function exportDOC(){
 }
 function replaceImageRobotCodeToHTML(content){
 	function getImage(code){
-		return "https://gchat.qpic.cn/gchatpic_new/0/0-0-"+code.replaceAll('-','')+"/0?term=2";
+		return "https://gchat.qpic.cn/gchatpic_new/0/0-0-"+escape(code.replaceAll('-',''))+"/0?term=2";
 	}
 	function getHtml(code){
 		return "<div style='text-indent:4em;'><img class='suitableImage lazy' data-original='"+getImage(code)+"'></div>";
