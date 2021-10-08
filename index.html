@@ -92,7 +92,6 @@ ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-
 	};
 	c.fn.imgPreview = function(j) {
 		var b = c.extend({
-			imgCSS: {},
 			distanceFromCursor: {
 				top: 10,
 				left: 10
@@ -106,9 +105,14 @@ ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-
 			thumbPrefix: '',
 			srcAttr: 'href'
 		},
-		j),
-		d = c('<div/>').attr('id', b.containerID).append('<img/>').hide().css('position', 'absolute').appendTo('body'),
-		f = c('img', d).css(b.imgCSS),
+		j);
+		var findContainerID = $("#"+b.containerID);
+		if(findContainerID.length==0){
+			d = c('<div/>').attr('id', b.containerID).append('<img/>').hide().css('position', 'absolute').css('pointer-events', 'none').appendTo('body');
+		}else{
+			d = findContainerID;
+		}
+		f = c('img', d);
 		h = this;
 		function i(a) {
 			return a.replace(/(\/?)([^\/]+)$/, '$1' + b.thumbPrefix + '$2')
@@ -137,6 +141,7 @@ ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-
 				b.onLoad.call(f[0], a)
 			}).attr('src', i(c(a).attr(b.srcAttr)));
 			b.onShow.call(d[0], a)
+			f.css('max-height',window.innerWidth*0.8+'px').css('max-width',window.innerHeight*0.8+'px');
 		},
 		function() {
 			d.hide();
