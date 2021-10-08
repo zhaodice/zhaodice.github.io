@@ -972,9 +972,12 @@ function setImageEvent(){
 		threshold : document.documentElement.clientHeight+180,
     });
 	(function($){  
-		$('.suitableImageLink').imgPreview({
-		imgCSS: { width: 600 }
-		});
+		var a = $('.suitableImageLink')
+		if(a.length>0){
+			a.imgPreview({
+			imgCSS: { width: 600 }
+			});
+		}
 	})(jQuery);
 }
 function startRenderPlayerList(){
