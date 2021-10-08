@@ -594,12 +594,20 @@ var currentLastColorNumber //最后自动选择的颜色
 var loaded_data //日志数据
 var loaded_players //玩家数据
 var logName="跑团日志"
-var viewTime = document.getElementById('visibility_TIME').checked
-var viewCode = document.getElementById('visibility_CODE').checked
-var viewOB = document.getElementById('visibility_OB').checked
-var viewCommand = document.getElementById('visibility_COMMAND').checked
 var mode_code
 var startRenderLogTimer = -1
+var viewTime = getChecked('visibility_TIME')
+var viewCode = getChecked('visibility_CODE')
+var viewOB = getChecked('visibility_OB')
+var viewCommand = getChecked('visibility_COMMAND')
+function getChecked(id){
+	var e = document.getElementById(id)
+	var result = localStorage.getItem(id,e.checked)
+	if(e.checked!=result){
+		e.checked = result
+	}
+	return result
+}
 function setStartRenderingButtonEnable(enbale){
 	setElementVisibility('startRenderingButton',enbale)
 	needRerender=enbale
@@ -634,7 +642,7 @@ function _on_switch_changed(e){//开关被改变
 		viewCommand=e.checked
 		setStartRenderingButtonEnable(true)
 	}
-	console.log(e.id,e.checked)
+	localStorage.setItem(e.id,e.checked);
 }
 
 function setElementVisibility(id,v){
