@@ -77,7 +77,75 @@ ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-
 <style id="dynamicImageItems">
 </style>
 <script>
-
+/*
+ * imgPreview jQuery plugin
+ * Copyright (c) 2009 James Padolsey
+ * j@qd9.co.uk | http://james.padolsey.com
+ * Dual licensed under MIT and GPL.
+ * Updated: 09/02/09
+ * @author James Padolsey
+ * @version 0.22
+ */
+(function(c) {
+	c.expr[':'].linkingToImage = function(a, g, e) {
+		return !! (c(a).attr(e[3]) && c(a).attr(e[3]).match(/\.(gif|jpe?g|png|bmp)$/i))
+	};
+	c.fn.imgPreview = function(j) {
+		var b = c.extend({
+			imgCSS: {},
+			distanceFromCursor: {
+				top: 10,
+				left: 10
+			},
+			preloadImages: true,
+			onShow: function() {},
+			onHide: function() {},
+			onLoad: function() {},
+			containerID: 'imgPreviewContainer',
+			containerLoadingClass: 'loading',
+			thumbPrefix: '',
+			srcAttr: 'href'
+		},
+		j),
+		d = c('<div/>').attr('id', b.containerID).append('<img/>').hide().css('position', 'absolute').appendTo('body'),
+		f = c('img', d).css(b.imgCSS),
+		h = this;
+		function i(a) {
+			return a.replace(/(\/?)([^\/]+)$/, '$1' + b.thumbPrefix + '$2')
+		}
+		if (b.preloadImages) { (function(a) {
+				var g = new Image(),
+				e = arguments.callee;
+				var n = c(h[a]).attr(b.srcAttr);
+				g.src = i(n);
+				g.onload = function() {
+					h[a + 1] && e(a + 1)
+				}
+			})(0)
+		}
+		h.mousemove(function(a) {
+			d.css({
+				top: a.pageY + b.distanceFromCursor.top - f[0].height/2 + 'px',
+				left: a.pageX + b.distanceFromCursor.left + 'px'
+			})
+		}).hover(function() {
+			var a = this;
+			d.addClass(b.containerLoadingClass).show();
+			f.on(function() {
+				d.removeClass(b.containerLoadingClass);
+				f.show();
+				b.onLoad.call(f[0], a)
+			}).attr('src', i(c(a).attr(b.srcAttr)));
+			b.onShow.call(d[0], a)
+		},
+		function() {
+			d.hide();
+			//f.unbind('on').attr('src', '').hide();
+			b.onHide.call(d[0], this)
+		});
+		return this
+	}
+})(jQuery);
 //CRC32 Library
 (function(){var d=[0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049,498536548,1789927666,4089016648,2227061214,450548861,1843258603,4107580753,2211677639,325883990,1684777152,4251122042,2321926636,335633487,1661365465,4195302755,2366115317,997073096,1281953886,3579855332,2724688242,1006888145,1258607687,3524101629,2768942443,901097722,1119000684,3686517206,2898065728,853044451,1172266101,
 3705015759,2882616665,651767980,1373503546,3369554304,3218104598,565507253,1454621731,3485111705,3099436303,671266974,1594198024,3322730930,2970347812,795835527,1483230225,3244367275,3060149565,1994146192,31158534,2563907772,4023717930,1907459465,112637215,2680153253,3904427059,2013776290,251722036,2517215374,3775830040,2137656763,141376813,2439277719,3865271297,1802195444,476864866,2238001368,4066508878,1812370925,453092731,2181625025,4111451223,1706088902,314042704,2344532202,4240017532,1658658271,
@@ -874,18 +942,23 @@ function startRenderLog(){
 			$(v[i].parentElement).addClass("noDoc")
 		}
 	}
-	loadLazyLoad()
+	setImageEvent()
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
 	//染色完毕，关闭按钮
 	setStartRenderingButtonEnable(false)
 }
-function loadLazyLoad(){
+function setImageEvent(){
 	$("img.lazy").lazyload({
 		effect : "fadeIn",
 		threshold : document.documentElement.clientHeight+180,
-    }); 
+    });
+	(function($){  
+		$('.suitableImageLink').imgPreview({
+		imgCSS: { width: 600 }
+		});
+	})(jQuery);
 }
 function startRenderPlayerList(){
 	// 模板渲染
@@ -952,7 +1025,8 @@ function replaceImageRobotCodeToHTML(content){
 		return "https://gchat.qpic.cn/gchatpic_new/0/0-0-"+escape(code.replaceAll('-',''))+"/0?term=2";
 	}
 	function getHtml(code){
-		return "<div style='text-indent:4em;'><img class='suitableImage lazy' data-original='"+getImage(code)+"'></div>";
+		var url = getImage(code);
+		return "<div style='text-indent:4em;'><a class='suitableImageLink' target='_blank' href='"+url+"'><img class='suitableImage lazy' data-original='"+url+"'></a></div>";
 	}
 	var imageMatch = [...content.matchAll(/\[mirai:image:\{(.*?)\}\.(.*?)\]/g)]
 	for(var j=0;j<imageMatch.length;j++){
