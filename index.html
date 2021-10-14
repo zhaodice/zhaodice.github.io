@@ -609,7 +609,7 @@ function closeBg() {
 	<tr style="background-color: transparent;">
 	<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
 	<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
-	<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" checked="checked" onChange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
+	<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
 	<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label></td>
 	</tr>
 	</table>
@@ -681,16 +681,19 @@ var loaded_players //玩家数据
 var logName="跑团日志"
 var mode_code
 var startRenderLogTimer = -1
-var viewTime = getChecked('visibility_TIME')
-var viewCode = getChecked('visibility_CODE')
-var viewOB = getChecked('visibility_OB')
-var viewCommand = getChecked('visibility_COMMAND')
-function getChecked(id){
+var viewTime = initChecked('visibility_TIME',true)
+var viewCode = initChecked('visibility_CODE',false)
+var viewOB = initChecked('visibility_OB',false)
+var viewCommand = initChecked('visibility_COMMAND',false)
+function initChecked(id,def){
 	var e = document.getElementById(id)
-	var result = localStorage.getItem(id,e.checked)
-	if(e.checked!=result){
-		e.checked = result
+	var result = localStorage.getItem(id)
+	if(result==null){
+		result = def
+	}else{
+		result = Number(result)
 	}
+	e.checked = result
 	return result
 }
 function setStartRenderingButtonEnable(enbale){
@@ -727,7 +730,7 @@ function _on_switch_changed(e){//开关被改变
 		viewCommand=e.checked
 		setStartRenderingButtonEnable(true)
 	}
-	localStorage.setItem(e.id,e.checked);
+	localStorage.setItem(e.id,Number(e.checked));
 }
 
 function setElementVisibility(id,v){
