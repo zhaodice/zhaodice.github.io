@@ -93,7 +93,7 @@ $(function(o) {
 			background: "#FFF",
 			shadow: "0 8px 17px 0 rgba(0, 0, 0, 0.2)",
 			border: "3px solid #FFF",
-			cursor: 0,
+			cursor: 1,
 			zIndex: 999999
 		},
 		s = o.extend(r, e);
@@ -101,7 +101,7 @@ $(function(o) {
 		function(o) {
 			o.preventDefault()
 		}),
-		t.css("cursor", s.cursor ? "crosshair": "none");
+		t.css("cursor", s.cursor ? "pointer": "none");
 		var d = document.createElement("div");
 		d.id = "BlowupLens",
 		o("body").append(d),
