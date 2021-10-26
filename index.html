@@ -102,13 +102,16 @@ $(function(o) {
 			o.preventDefault()
 		}),
 		t.css("cursor", s.cursor ? "pointer": "none");
-		var d = document.createElement("div");
-		d.id = "BlowupLens",
-		o("body").append(d),
-		$blowupLens = o("#BlowupLens"),
+		$blowupLens = $("#BlowupLens");
+		if($blowupLens.length==0){
+			var d = document.createElement("div");
+			d.id = "BlowupLens";
+			o("body").append(d);
+			$blowupLens = $("#BlowupLens");
+		}
 		$blowupLens.css({
 			position: "absolute",
-			visibility: "hidden",
+			display: "none",
 			"pointer-events": "none",
 			zIndex: s.zIndex,
 			width: s.width,
@@ -120,7 +123,7 @@ $(function(o) {
 			"background-repeat": "no-repeat"
 		}),
 		t.mouseenter(function() {
-			$blowupLens.css("visibility", "visible")
+			$blowupLens.css("display", "block")
 		}),
 		
 		t.mousemove(function(o) {
@@ -138,11 +141,11 @@ $(function(o) {
 					"background-position": u + "px" + " " + h + "px"
 				})
 			}else{
-				$blowupLens.css("visibility", "hidden")
+				$blowupLens.css("display", "none")
 			}
 		}),
 		t.mouseleave(function() {
-			$blowupLens.css("visibility", "hidden")
+			$blowupLens.css("display", "none")
 		})
 	}
 });
