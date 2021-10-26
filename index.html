@@ -77,92 +77,71 @@ ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-
 <style id="dynamicImageItems">
 </style>
 <script>
-/*
- * imgPreview jQuery plugin
- * Copyright (c) 2009 James Padolsey
- * j@qd9.co.uk | http://james.padolsey.com
- * Dual licensed under MIT and GPL.
- * Updated: 09/02/09
- * @author James Padolsey
- * @version 0.22
- */
-(function(c) {
-	c.expr[':'].linkingToImage = function(a, g, e) {
-		return !! (c(a).attr(e[3]) && c(a).attr(e[3]).match(/\.(gif|jpe?g|png|bmp)$/i))
-	};
-	c.fn.imgPreview = function(j) {
-		var b = c.extend({
-			distanceFromCursor: {
-				top: 10,
-				left: 10
-			},
-			preloadImages: true,
-			onShow: function() {},
-			onHide: function() {},
-			onLoad: function() {},
-			containerID: 'imgPreviewContainer',
-			containerLoadingClass: 'loading',
-			thumbPrefix: '',
-			srcAttr: 'href'
+// blowup.min.js
+// Paul Krishnamurthy 2016
+$(function(o) {
+	o.fn.blowup = function(e) {
+		var t = this;
+		if (!t.is("img")) return void console.log("%c Blowup.js Error: %cTarget element is not an image.", "background: #FCEBB6; color: #F07818; font-size: 17px; font-weight: bold;", "background: #FCEBB6; color: #F07818; font-size: 17px;");
+		var n = t.attr("src"),
+		i = (t.width(), t.height(), new Image);
+		i.src = t.attr("src");
+		var r = {
+			round: 0,
+			width: 300,
+			height: 300,
+			background: "#FFF",
+			shadow: "0 8px 17px 0 rgba(0, 0, 0, 0.2)",
+			border: "3px solid #FFF",
+			cursor: !0,
+			zIndex: 999999
 		},
-		j);
-		var findContainerID = $("#"+b.containerID);
-		if(findContainerID.length==0){
-			d = c('<div/>').attr('id', b.containerID).append('<img/>').hide()
-			.css('position', 'absolute')
-			.css('pointer-events', 'none')
-			.css('box-shadow', 'rgb(170, 170, 170) 2px 2px 3px')
-			.css('padding', '10px 10px 20px;')
-			.css('border', '1px solid rgb(191, 191, 191)')
-			.css('background', '#FFF')
-			.appendTo('body');
-		}else{
-			d = findContainerID;
-		}
-		f = c('img', d);
-		h = this;
-		function i(a) {
-			return a.replace(/(\/?)([^\/]+)$/, '$1' + b.thumbPrefix + '$2')
-		}
-		if (b.preloadImages) { (function(a) {
-				var g = new Image(),
-				e = arguments.callee;
-				var n = c(h[a]).attr(b.srcAttr);
-				g.src = i(n);
-				g.onload = function() {
-					h[a + 1] && e(a + 1)
-				}
-			})(0)
-		}
+		s = o.extend(r, e);
+		t.on("dragstart",
+		function(o) {
+			o.preventDefault()
+		}),
+		t.css("cursor", s.cursor ? "crosshair": "none");
+		var d = document.createElement("div");
+		d.id = "BlowupLens",
+		o("body").append(d),
+		$blowupLens = o("#BlowupLens"),
+		$blowupLens.css({
+			position: "absolute",
+			visibility: "hidden",
+			"pointer-events": "none",
+			zIndex: s.zIndex,
+			width: s.width,
+			height: s.height,
+			border: s.border,
+			background: s.background,
+			"border-radius": s.round ? "50%": "none",
+			"box-shadow": s.shadow,
+			"background-repeat": "no-repeat"
+		}),
+		t.mouseenter(function() {
+			$blowupLens.css("visibility", "visible")
+		}),
 		
-		h.mousemove(function(a) {
-		d.css({
-			top: a.pageY + b.distanceFromCursor.top - f[0].height/2 + 'px',
-			left: a.pageX + b.distanceFromCursor.left + 'px'
+		t.mousemove(function(o) {
+			var e = o.pageX - 100 //o.pageX - s.width / 2 + 100,
+			r = o.pageY - s.height + 100 //o.pageY - s.height / 2,
+			d = o.pageX - this.offsetLeft,
+			a = o.pageY - this.offsetTop,
+			u = -Math.floor(d / t.width() * i.width - s.width / 2),
+			h = -Math.floor(a / t.height() * i.height - s.height / 2);
+			$blowupLens.css({
+				left: e,
+				top: r,
+				"background-image": "url(" + n + ")",
+				"background-position": u + "px" + " " + h + "px"
+			})
+		}),
+		t.mouseleave(function() {
+			$blowupLens.css("visibility", "hidden")
 		})
-		}).hover(function() {
-			var a = this;
-			d.addClass(b.containerLoadingClass).show();
-			f.on(function() {
-				d.removeClass(b.containerLoadingClass);
-				b.onLoad.call(f[0], a)
-			}).attr('src', i(c(a).attr(b.srcAttr)));
-			b.onShow.call(d[0], a)
-			f.css('max-height',window.innerWidth*0.8+'px').css('max-width',window.innerHeight*0.8+'px');
-			if(f[0].width<f[0].naturalWidth || f[0].height<f[0].naturalHeight){
-				d.show()
-			}else{
-				d.hide()
-			}
-		},
-		function() {
-			d.hide();
-			//f.unbind('on').attr('src', '').hide();
-			b.onHide.call(d[0], this)
-		});
-		return this
 	}
-})(jQuery);
+});
 //CRC32 Library
 (function(){var d=[0,1996959894,3993919788,2567524794,124634137,1886057615,3915621685,2657392035,249268274,2044508324,3772115230,2547177864,162941995,2125561021,3887607047,2428444049,498536548,1789927666,4089016648,2227061214,450548861,1843258603,4107580753,2211677639,325883990,1684777152,4251122042,2321926636,335633487,1661365465,4195302755,2366115317,997073096,1281953886,3579855332,2724688242,1006888145,1258607687,3524101629,2768942443,901097722,1119000684,3686517206,2898065728,853044451,1172266101,
 3705015759,2882616665,651767980,1373503546,3369554304,3218104598,565507253,1454621731,3485111705,3099436303,671266974,1594198024,3322730930,2970347812,795835527,1483230225,3244367275,3060149565,1994146192,31158534,2563907772,4023717930,1907459465,112637215,2680153253,3904427059,2013776290,251722036,2517215374,3775830040,2137656763,141376813,2439277719,3865271297,1802195444,476864866,2238001368,4066508878,1812370925,453092731,2181625025,4111451223,1706088902,314042704,2344532202,4240017532,1658658271,
@@ -435,6 +414,8 @@ function closeBg() {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
                             }
+							
+							$self.trigger("startLazyload");
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
                 }
@@ -975,12 +956,13 @@ function setImageEvent(){
 		threshold : document.documentElement.clientHeight+180,
     });
 	(function($){  
-		var a = $('.suitableImageLink')
-		if(a.length>0){
-			a.imgPreview({
-			imgCSS: { width: 600 }
-			});
-		}
+		$(".suitableImage").each(function(){
+			$(this).one("startLazyload",function(){
+				$(this).blowup({
+					background : "#FCEBB6"
+				})
+			})
+		})
 	})(jQuery);
 }
 function startRenderPlayerList(){
@@ -1055,7 +1037,7 @@ function replaceImageRobotCodeToHTML(content){
 	for(var j=0;j<imageMatch.length;j++){
 		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][1]))
 	}
-	imageMatch = [...content.matchAll(/\[pic={(.*?)}.(.*?),.*?,.*?\]/g)]
+	imageMatch = [...content.matchAll(/\[pic={(.*?)}\.(.*?)(,.*?,.*?)?\]/g)]
 	for(var j=0;j<imageMatch.length;j++){
 		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][1]))
 	}
