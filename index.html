@@ -93,7 +93,7 @@ $(function(o) {
 			background: "#FFF",
 			shadow: "0 8px 17px 0 rgba(0, 0, 0, 0.2)",
 			border: "3px solid #FFF",
-			cursor: !0,
+			cursor: 0,
 			zIndex: 999999
 		},
 		s = o.extend(r, e);
@@ -124,18 +124,22 @@ $(function(o) {
 		}),
 		
 		t.mousemove(function(o) {
-			var e = o.pageX - 100 //o.pageX - s.width / 2 + 100,
-			r = o.pageY - s.height + 100 //o.pageY - s.height / 2,
-			d = o.pageX - this.offsetLeft,
-			a = o.pageY - this.offsetTop,
-			u = -Math.floor(d / t.width() * i.width - s.width / 2),
-			h = -Math.floor(a / t.height() * i.height - s.height / 2);
-			$blowupLens.css({
-				left: e,
-				top: r,
-				"background-image": "url(" + n + ")",
-				"background-position": u + "px" + " " + h + "px"
-			})
+			if(t[0].width<t[0].naturalWidth || t[0].height<t[0].naturalHeight){
+				var e = o.pageX - 100 //o.pageX - s.width / 2 + 100,
+				r = o.pageY - s.height + 100 //o.pageY - s.height / 2,
+				d = o.pageX - this.offsetLeft,
+				a = o.pageY - this.offsetTop,
+				u = -Math.floor(d / t.width() * i.width - s.width / 2),
+				h = -Math.floor(a / t.height() * i.height - s.height / 2);
+				$blowupLens.css({
+					left: e,
+					top: r,
+					"background-image": "url(" + n + ")",
+					"background-position": u + "px" + " " + h + "px"
+				})
+			}else{
+				$blowupLens.css("visibility", "hidden")
+			}
 		}),
 		t.mouseleave(function() {
 			$blowupLens.css("visibility", "hidden")
