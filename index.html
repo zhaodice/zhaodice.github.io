@@ -1038,7 +1038,7 @@ function replaceImageRobotCodeToHTML(content){
 	}
 	function getHtml(oricode,code){
 		var url = getImage(code);
-		return "<div style='text-indent:4em;'><a class='suitableImageLink' target='_blank' href='"+url+"'><img alt='"+escape(oricode)+"' class='suitableImage lazy' data-original='"+url+"'></a></div>";
+		return "<div style='text-indent:4em;'><a class='suitableImageLink' target='_blank' href='"+url+"'><img alt='"+HTMLEncode(oricode)+"' class='suitableImage lazy' data-original='"+url+"'></a></div>";
 	}
 	var imageMatch = [...content.matchAll(/\[mirai:image:\{(.*?)\}\.(.*?)\]/g)]
 	for(var j=0;j<imageMatch.length;j++){
