@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0031)https://logpainter.trpgbot.com/ -->
+<!-- saved from url=(0037)https://logpainter.trpgbot.com/#1-K8D -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="QQ跑团记录着色器" name="Description">
 <meta name="referrer" content="never">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <title>QQ跑团记录着色器</title>
 <script>
@@ -71,9 +70,7 @@ table{border-collapse:collapse;margin:0 auto;text-align:center}table td,table th
 <style>
 ul.demo-vertical{list-style-type:none;margin:0;padding:0;width:200px;background-color:#f1f1f1}ul.demo-vertical li a{display:block;color:#000;padding:8px 0 8px 16px;text-decoration:none;border:0}ul.demo-vertical li a:hover:not(.active){background-color:#555;color:#fff}ul.demo-vertical a.active{background-color:#4caf50;color:#fff}ul.demo-horizontal{list-style-type:none;margin:0;padding:0;overflow:hidden;background-color:#333}ul.demo-horizontal li{float:left;margin:0}ul.demo-horizontal li a{display:inline-block;color:#fff;text-align:center;padding:14px 16px;text-decoration:none;border:0}ul.demo-horizontal li a:hover:not(.active){background-color:#000}ul.demo-horizontal li a.active{background-color:#4caf50}ul.gray{border:1px solid #e7e7e7;background-color:hsla(0,0%,95.3%,.64)}ul.gray li a{display:block;color:#666;text-align:center;padding:14px .4em;text-decoration:none;border:0}ul.gray li a:hover:not(.active){background-color:#ddd}ul.gray li a.active{color:#fff;background-color:#008cba}
 </style>
-<style id="dynamicLogStyle">
-.STYLE3 {font-size: 14px}
-</style>
+<style id="dynamicLogStyle" type="text/css">.suitableImage {max-height:300px;max-width:80%;overflow:hidden;position:relative;z-index:0}.log_child_id_357826834{ color: #228B22 ; }.log_child_id_3403310837{ color: #0080ff ; }</style>
 <style id="dynamicImageItems">
 </style>
 <script>
@@ -541,9 +538,9 @@ function closeBg() {
 </script>
 <style>html, * {-webkit-user-select:text!important; -moz-user-select:text!important;}</style></head>
 <body>
-<div id="fullbg"></div>
-<div id="dialog">当前进程：<div id="dialogContent" style="word-wrap: break-word;word-break: normal;"></div><p></p><div id="dialogPer"></div></div>
-<div id="container">
+<div id="fullbg" style="display: none;"></div>
+<div id="dialog" style="display: none;">当前进程：<div id="dialogContent" style="word-wrap: break-word;word-break: normal;">正在进行染色计算中...</div><p></p><div id="dialogPer"></div></div>
+<div id="container" class="">
 <div id="control">
 <div id="Layer1" style="display:none;position:absolute;z-index:1;"></div>
 <ul class="demo-horizontal gray">
@@ -560,7 +557,7 @@ function closeBg() {
 </div>
 <p align="center" class="STYLE3">下载文件时请使用标准“Firfox”或“Chrome”浏览器，其他国产浏览器可能导致下载失败。</p>
 <p align="center" class="STYLE3">若要另存为带图log，请先<a href="javascript:autoRollToBottom()">点击这里</a>从上到下完整浏览一遍网页，确保图片全部加载完毕后，按下F9进入沉浸模式，右键另存为，格式为<strong>“网页，全部(*.htm;*.html)或网页（单个文件）(*.mhtml)”</strong>即可带图保存,千万不要选“仅网页”</p>
-<h4 align="center" id="leftTimeShow"></h4>
+<h4 align="center" id="leftTimeShow">日志文件被承诺在<font color="red">[89天23小时49分钟19秒]</font>内不会被删除，但还是建议及时存储和备份。</h4>
 <div align="center">
 <div id="normalFunction">
 <a class="button button-primary button-pill" onclick="exportTXT()">下载为TXT文本文件</a>
@@ -569,7 +566,36 @@ function closeBg() {
 </div>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onclick="document.getElementById(&#39;logContent&#39;).value=&#39;&#39;" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
-<div id="div_player_list"></div>
+<div id="div_player_list">
+		<table width="100%" border="1">
+		  <tbody><tr>
+			<td>玩家名称</td>
+			<td>玩家ID</td>
+			<td>可视</td>
+			<td>颜色选择</td>
+		  </tr>
+		  
+			<tr>
+			<td><div id="player_editor_id_357826834" oninput="_player_on_changing(this,&#39;357826834&#39;)" contenteditable="true">赵喵喵V2.0</div></td>
+			<td>357826834</td>
+			<td><input type="checkbox" id="visibility_id_357826834" class="regular-checkbox" checked="checked" onclick="_visibility_on_changed(this,&#39;357826834&#39;)"><label for="visibility_id_357826834"></label>
+			</td>
+			<td><input onchange="_color_on_changed(this,&#39;357826834&#39;)" type="color" value="#228B22"></td>
+			</tr>
+		
+			<tr>
+			<td><div id="player_editor_id_3403310837" oninput="_player_on_changing(this,&#39;3403310837&#39;)" contenteditable="true">雪儿</div></td>
+			<td>3403310837</td>
+			<td><input type="checkbox" id="visibility_id_3403310837" class="regular-checkbox" checked="checked" onclick="_visibility_on_changed(this,&#39;3403310837&#39;)"><label for="visibility_id_3403310837"></label>
+			</td>
+			<td><input onchange="_color_on_changed(this,&#39;3403310837&#39;)" type="color" value="#0080ff"></td>
+			</tr>
+		
+		
+		  
+		
+		</tbody></table>
+	</div>
 <script type="text/html" id="template_player_list">
 		<table width="100%" border="1">
 		  <tr>
@@ -613,7 +639,7 @@ function closeBg() {
 </div>
 </div>
 <div style="position:fixed;right:0;bottom:1em;z-index: 1;">
-<a id="startRenderingButton" onclick="init()" class="button button-glow button-rounded button-action" style="">点击重新染色跑团记录</a>
+<a id="startRenderingButton" onclick="init()" class="button button-glow button-rounded button-action" style="display: none;">点击重新染色跑团记录</a>
 <a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
 </div>
 </div>
@@ -633,7 +659,38 @@ function closeBg() {
 								}
 	
 						">
-<span style="color:silver;">{time}</span> <span style="color:red;">&lt;{player}&gt; {content}</span><br>
+	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
+		
+			
+			
+			
+			<div class="log_child_id_3403310837">
+			<span class="log_child_time" style="color:silver;">19:39:44</span>
+			<span class="log_child_content">
+				<span style="">&lt;雪儿&gt;</span>开始了？那么我们开始新建日志文档吧  
+			</span><br>
+			</div>
+		
+			
+			
+			
+			<div class="log_child_id_357826834">
+			<span class="log_child_time" style="color:silver;">19:39:47</span>
+			<span class="log_child_content">
+				<span style="">&lt;赵喵喵V2.0&gt;</span>。log end  
+			</span><br>
+			</div>
+		
+	</div>
+	<div id="div_log_code" role="tabpanel" style="background-color: rgb(255, 255, 255); display: none;">
+		
+			
+			<span class="log_child_time">[color=silver]19:39:44[/color]</span> [color=#0080ff]&lt;雪儿&gt; 开始了？那么我们开始新建日志文档吧  [/color]<br>
+		
+			
+			<span class="log_child_time">[color=silver]19:39:47[/color]</span> [color=#228B22]&lt;赵喵喵V2.0&gt; 。log end  [/color]<br>
+		
+	</div>
 </div>
 </div>
 <script type="text/html" id="template_colored_preview">
@@ -954,12 +1011,12 @@ function startRenderLog(){
 		cssText +='.log_child_time{display:none;}'
 	}
 	//标记所有纯图片，用于导出CSS时noDoc内批量隐藏
-	v=$(".log_child_content")
+	/*v=$(".log_child_content")
 	for(var i=0;i<v.length;i++){
 		if(v[i].firstElementChild.innerText==v[i].innerText){
 			$(v[i].parentElement).addClass("noDoc")
 		}
-	}
+	}*/
 	setImageEvent()
 	//使用样式进行染色
 	addCSS(cssText)
@@ -1325,6 +1382,5 @@ window.addEventListener('hashchange',function(event) {
 //自动隐藏按钮控制器
 window.onscroll=function(){if(needRerender){var btn=document.getElementById("startRenderingButton");var scrollTop=document.body.scrollTop||(document.documentElement&&document.documentElement.scrollTop);if(scrollTop>=300){btn.style.display="none"}else{btn.style.display="block"}}var btn=document.getElementById("gotoTopButton");var scrollTop=document.body.scrollTop||(document.documentElement&&document.documentElement.scrollTop);if(scrollTop>=300){btn.style.display="block"}else{btn.style.display="none"}};
 </script>
-
 
 </body></html>
