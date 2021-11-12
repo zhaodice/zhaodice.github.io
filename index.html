@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0037)https://logpainter.trpgbot.com/#1-K8D -->
+<!-- saved from url=(0031)https://logpainter.trpgbot.com/ -->
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="QQ跑团记录着色器" name="Description">
 <meta name="referrer" content="never">
@@ -553,11 +553,11 @@ function closeBg() {
 </ul>
 <div align="center" class="STYLE1">QQ跑团记录着色器</div>
 <div align="center" class="STYLE2">
-<p>v0.1 beta by 赵怡然</p>
+<p>v1.0 by 赵怡然</p>
 </div>
 <p align="center" class="STYLE3">下载文件时请使用标准“Firfox”或“Chrome”浏览器，其他国产浏览器可能导致下载失败。</p>
 <p align="center" class="STYLE3">若要另存为带图log，请先<a href="javascript:autoRollToBottom()">点击这里</a>从上到下完整浏览一遍网页，确保图片全部加载完毕后，按下F9进入沉浸模式，右键另存为，格式为<strong>“网页，全部(*.htm;*.html)或网页（单个文件）(*.mhtml)”</strong>即可带图保存,千万不要选“仅网页”</p>
-<h4 align="center" id="leftTimeShow">日志文件被承诺在<font color="red">[89天23小时49分钟19秒]</font>内不会被删除，但还是建议及时存储和备份。</h4>
+<h4 align="center" id="leftTimeShow"></h4>
 <div align="center">
 <div id="normalFunction">
 <a class="button button-primary button-pill" onclick="exportTXT()">下载为TXT文本文件</a>
@@ -567,35 +567,8 @@ function closeBg() {
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onclick="document.getElementById(&#39;logContent&#39;).value=&#39;&#39;" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
 <div id="div_player_list">
-		<table width="100%" border="1">
-		  <tbody><tr>
-			<td>玩家名称</td>
-			<td>玩家ID</td>
-			<td>可视</td>
-			<td>颜色选择</td>
-		  </tr>
-		  
-			<tr>
-			<td><div id="player_editor_id_357826834" oninput="_player_on_changing(this,&#39;357826834&#39;)" contenteditable="true">赵喵喵V2.0</div></td>
-			<td>357826834</td>
-			<td><input type="checkbox" id="visibility_id_357826834" class="regular-checkbox" checked="checked" onclick="_visibility_on_changed(this,&#39;357826834&#39;)"><label for="visibility_id_357826834"></label>
-			</td>
-			<td><input onchange="_color_on_changed(this,&#39;357826834&#39;)" type="color" value="#228B22"></td>
-			</tr>
-		
-			<tr>
-			<td><div id="player_editor_id_3403310837" oninput="_player_on_changing(this,&#39;3403310837&#39;)" contenteditable="true">雪儿</div></td>
-			<td>3403310837</td>
-			<td><input type="checkbox" id="visibility_id_3403310837" class="regular-checkbox" checked="checked" onclick="_visibility_on_changed(this,&#39;3403310837&#39;)"><label for="visibility_id_3403310837"></label>
-			</td>
-			<td><input onchange="_color_on_changed(this,&#39;3403310837&#39;)" type="color" value="#0080ff"></td>
-			</tr>
-		
-		
-		  
-		
-		</tbody></table>
-	</div>
+
+</div>
 <script type="text/html" id="template_player_list">
 		<table width="100%" border="1">
 		  <tr>
@@ -659,38 +632,10 @@ function closeBg() {
 								}
 	
 						">
-	<div id="div_log_view" role="tabpanel" style="background-color:#fff">
-		
-			
-			
-			
-			<div class="log_child_id_3403310837">
-			<span class="log_child_time" style="color:silver;">19:39:44</span>
-			<span class="log_child_content">
-				<span style="">&lt;雪儿&gt;</span>开始了？那么我们开始新建日志文档吧  
-			</span><br>
-			</div>
-		
-			
-			
-			
-			<div class="log_child_id_357826834">
-			<span class="log_child_time" style="color:silver;">19:39:47</span>
-			<span class="log_child_content">
-				<span style="">&lt;赵喵喵V2.0&gt;</span>。log end  
-			</span><br>
-			</div>
-		
-	</div>
-	<div id="div_log_code" role="tabpanel" style="background-color: rgb(255, 255, 255); display: none;">
-		
-			
-			<span class="log_child_time">[color=silver]19:39:44[/color]</span> [color=#0080ff]&lt;雪儿&gt; 开始了？那么我们开始新建日志文档吧  [/color]<br>
-		
-			
-			<span class="log_child_time">[color=silver]19:39:47[/color]</span> [color=#228B22]&lt;赵喵喵V2.0&gt; 。log end  [/color]<br>
-		
-	</div>
+<div id="div_log_view" role="tabpanel" style="background-color:#fff">
+</div>
+<div id="div_log_code" role="tabpanel" style="background-color: rgb(255, 255, 255); display: none;">
+</div>
 </div>
 </div>
 <script type="text/html" id="template_colored_preview">
@@ -701,7 +646,7 @@ function closeBg() {
 			<% var hiddenTimeTextsEmpty = logData[i].noTime?"color:white;":"" %>
 			<div class="log_child_id_<%= logData[i].id %>">
 			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span>
-			<span class="log_child_content<%= logData[i].ob?' log_child_ob':'' %>">
+			<span class="log_child_content <%= logData[i].ob?' log_child_ob':''%> <%= logData[i].noDoc?' noDoc':''%>">
 				<span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span><%:= logData[i].content %>
 			</span><br>
 			</div>
@@ -962,6 +907,11 @@ function startRenderLog(){
 		var newChild = Object.create(loaded_data[i])
 		newChild.content = HTMLEncode(newChild.content)
 		newChild.content = replaceImageRobotCodeToHTML(newChild.content)
+		if(newChild.content.replace(/<[^>]+>/g,"").trim()==''){
+			newChild.noDoc=true;
+		}else{
+			newChild.noDoc=false;
+		}
 		if(!viewCode){
 			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
