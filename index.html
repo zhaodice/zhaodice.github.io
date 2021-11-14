@@ -567,7 +567,6 @@ function closeBg() {
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
 <a class="rightAndDown button button-caution button-small m-no-select" onclick="document.getElementById(&#39;logContent&#39;).value=&#39;&#39;" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
 <div id="div_player_list">
-
 </div>
 <script type="text/html" id="template_player_list">
 		<table width="100%" border="1">
@@ -644,7 +643,8 @@ function closeBg() {
 			<% var pl=playerData[logData[i].id] %>
 			<% var hiddenTimeTextsSilver = logData[i].noTime?"color:white;":"color:silver;" %>
 			<% var hiddenTimeTextsEmpty = logData[i].noTime?"color:white;":"" %>
-			<div class="log_child_id_<%= logData[i].id %> <%= logData[i].noDoc?' noDoc':''%>">
+			<% var logControlStyle = ("log_child_id_"+logData[i].id+" "+(logData[i].noDoc?' noDoc':'')).trim() %>
+			<div class="<%=logControlStyle%>">
 			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span>
 			<span class="log_child_content <%= logData[i].ob?' log_child_ob':''%>">
 				<span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span><%:= logData[i].content %>
