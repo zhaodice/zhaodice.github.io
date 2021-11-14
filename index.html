@@ -643,7 +643,7 @@ function closeBg() {
 			<% var pl=playerData[logData[i].id] %>
 			<% var hiddenTimeTextsSilver = logData[i].noTime?"color:white;":"color:silver;" %>
 			<% var hiddenTimeTextsEmpty = logData[i].noTime?"color:white;":"" %>
-			<% var logControlStyle = ("log_child_id_"+logData[i].id+" "+(logData[i].noDoc?' noDoc':'')).trim() %>
+			<% var logControlStyle = "log_child_id_"+logData[i].id+(logData[i].noDoc?' noDoc':'') %>
 			<div class="<%=logControlStyle%>">
 			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span>
 			<span class="log_child_content <%= logData[i].ob?' log_child_ob':''%>">
