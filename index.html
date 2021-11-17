@@ -967,12 +967,13 @@ function startRenderLog(){
 			$(v[i].parentElement).addClass("noDoc")
 		}
 	}*/
-	setImageEvent()
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
 	//染色完毕，关闭按钮
 	setStartRenderingButtonEnable(false)
+	//装点事件
+	setImageEvent()
 }
 function setImageEvent(){
 	setTimeout(function () {
