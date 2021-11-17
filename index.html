@@ -975,19 +975,19 @@ function startRenderLog(){
 	setStartRenderingButtonEnable(false)
 }
 function setImageEvent(){
-	$("img.lazy").lazyload({
+	setTimeout(function () {
+        $("img.lazy").lazyload({
 		effect : "fadeIn",
 		threshold : document.documentElement.clientHeight+180,
-    });
-	(function($){  
+		});
 		$(".suitableImage").each(function(){
 			$(this).one("startLazyload",function(){
 				$(this).blowup({
 					background : "#FCEBB6"
 				})
 			})
-		})
-	})(jQuery);
+		});
+    }, 1);
 }
 function startRenderPlayerList(){
 	// 模板渲染
