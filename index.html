@@ -593,6 +593,7 @@ function closeBg() {
 <div align="center" class="m-no-select">
 <table width="100%" border="0">
 <tbody><tr style="background-color: transparent;">
+<td><input type="checkbox" id="visibility_IMAGE" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_IMAGE">显示在线图片</label></td>
 <td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
 <td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
 <td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
@@ -675,6 +676,7 @@ var viewTime = initChecked('visibility_TIME',true)
 var viewCode = initChecked('visibility_CODE',false)
 var viewOB = initChecked('visibility_OB',false)
 var viewCommand = initChecked('visibility_COMMAND',false)
+var viewImage = initChecked('visibility_IMAGE',false)
 function initChecked(id,def){
 	var e = document.getElementById(id)
 	var result = localStorage.getItem(id)
@@ -718,6 +720,9 @@ function _on_switch_changed(e){//开关被改变
 		setStartRenderingButtonEnable(true)
 	}else if(e.id=='visibility_COMMAND'){
 		viewCommand=e.checked
+		setStartRenderingButtonEnable(true)
+	}else if(e.id=='visibility_IMAGE'){
+		viewImage=e.checked
 		setStartRenderingButtonEnable(true)
 	}
 	localStorage.setItem(e.id,Number(e.checked));
@@ -905,12 +910,14 @@ function startRenderLog(){
 	var jump_uniqueID=-1
 	for(var i in loaded_data){
 		var newChild = Object.create(loaded_data[i])
-		newChild.content = HTMLEncode(newChild.content)
-		newChild.content = replaceImageRobotCodeToHTML(newChild.content)
-		if(newChild.content.replace(/<[^>]+>/g,"").trim()==''){
-			newChild.noDoc=true;
-		}else{
-			newChild.noDoc=false;
+		if(viewImage){
+			newChild.content = HTMLEncode(newChild.content)
+			newChild.content = replaceImageRobotCodeToHTML(newChild.content)
+			if(newChild.content.replace(/<[^>]+>/g,"").trim()==""){
+				newChild.noDoc=true;
+			}else{
+				newChild.noDoc=false;
+			}
 		}
 		if(!viewCode){
 			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
@@ -960,35 +967,27 @@ function startRenderLog(){
 	if(!viewTime){
 		cssText +='.log_child_time{display:none;}'
 	}
-	//标记所有纯图片，用于导出CSS时noDoc内批量隐藏
-	/*v=$(".log_child_content")
-	for(var i=0;i<v.length;i++){
-		if(v[i].firstElementChild.innerText==v[i].innerText){
-			$(v[i].parentElement).addClass("noDoc")
-		}
-	}*/
+	if(viewImage){
+		setImageEvent()
+	}
 	//使用样式进行染色
 	addCSS(cssText)
 	switch_to_mode()
 	//染色完毕，关闭按钮
 	setStartRenderingButtonEnable(false)
-	//装点事件
-	setImageEvent()
 }
 function setImageEvent(){
-	setTimeout(function () {
-        $("img.lazy").lazyload({
+	$("img.lazy").lazyload({
 		effect : "fadeIn",
 		threshold : document.documentElement.clientHeight+180,
-		});
-		$(".suitableImage").each(function(){
-			$(this).one("startLazyload",function(){
-				$(this).blowup({
-					background : "#FCEBB6"
-				})
+	});
+	$(".suitableImage").each(function(){
+		$(this).one("startLazyload",function(){
+			$(this).blowup({
+				background : "#FCEBB6"
 			})
-		});
-    }, 500);
+		})
+	});
 }
 function startRenderPlayerList(){
 	// 模板渲染
