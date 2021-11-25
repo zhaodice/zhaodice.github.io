@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<!-- saved from url=(0031)https://logpainter.trpgbot.com/ -->
+
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="QQ跑团记录着色器" name="Description">
 <meta name="referrer" content="never">
@@ -560,12 +561,12 @@ function closeBg() {
 <h4 align="center" id="leftTimeShow"></h4>
 <div align="center">
 <div id="normalFunction">
-<a class="button button-primary button-pill" onclick="exportTXT()">下载为TXT文本文件</a>
-<a class="button button-primary button-pill" onclick="exportDOC()">下载为DOC无图染色文件</a>
+<a class="button button-primary button-pill" onClick="exportTXT()">下载为TXT文本文件</a>
+<a class="button button-primary button-pill" onClick="exportDOC()">下载为DOC无图染色文件</a>
 </div>
 </div>
 <textarea id="logContent" class="logTextare" name="textfield" rows="10" oninput="_log_text_changing()"></textarea>
-<a class="rightAndDown button button-caution button-small m-no-select" onclick="document.getElementById(&#39;logContent&#39;).value=&#39;&#39;" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
+<a class="rightAndDown button button-caution button-small m-no-select" onClick="document.getElementById(&#39;logContent&#39;).value=&#39;&#39;" style="position: relative; bottom: 2.6em; right: 1em;float:right">清空文本</a>
 <div id="div_player_list">
 </div>
 <script type="text/html" id="template_player_list">
@@ -592,32 +593,36 @@ function closeBg() {
 	</script>
 <div align="center" class="m-no-select">
 <table width="100%" border="0">
-<tbody><tr style="background-color: transparent;">
-<td><input type="checkbox" id="visibility_IMAGE" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_IMAGE">显示在线图片</label></td>
-<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_CODE">显示框架代码</label></td>
-<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_OB">显示场外发言</label></td>
-<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_TIME">显示发言时间</label></td>
-<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onchange="_on_switch_changed(this)"><label for="visibility_COMMAND">显示骰指令</label></td>
+<tbody>
+<tr>
+	<td colspan="5"><div align="left">可选的显示内容，单击可选择哪些类型被显示：</div></td>
+</tr>
+<tr style="background-color: transparent;">
+<td><input type="checkbox" id="visibility_IMAGE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_IMAGE">在线图片</label></td>
+<td><input type="checkbox" id="visibility_CODE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_CODE">框架代码</label></td>
+<td><input type="checkbox" id="visibility_OB" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_OB">场外发言</label></td>
+<td><input type="checkbox" id="visibility_TIME" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_TIME">发言时间</label></td>
+<td><input type="checkbox" id="visibility_COMMAND" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_COMMAND">骰指令</label></td>
 </tr>
 </tbody></table>
 </div>
 <div align="center">
 <div class="button-group">
-<button onclick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
+<button onClick="switch_to_colored_view()" type="button" class="button button-small button-border button-rounded button-primary">
 预览染色
 </button>
-<button onclick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
+<button onClick="switch_to_code()" type="button" class="button button-small button-border button-rounded button-primary">
 输出代码
 </button>
 </div>
 </div>
 <div style="position:fixed;right:0;bottom:1em;z-index: 1;">
-<a id="startRenderingButton" onclick="init()" class="button button-glow button-rounded button-action" style="display: none;">点击重新染色跑团记录</a>
+<a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action" style="display: none;">点击重新染色跑团记录</a>
 <a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
 </div>
 </div>
 <div id="content" style="background: #FFF;">
-<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" ondblclick="
+<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="
 							var text=this;
 							if (document.body.createTextRange) {
 									var range = document.body.createTextRange();
@@ -862,7 +867,7 @@ function startDecodeLog(){
 			}
 			return false
 		},function(unique){
-			math=logLine.match(/^(.*?) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})$/i)//新版本PC QQ的染色格式
+			math=logLine.match(/^(.*?) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})$/i)//新版本PC QQ的染色格式
 			if(math!=null){
 				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName = math[1]
@@ -1332,5 +1337,4 @@ window.addEventListener('hashchange',function(event) {
 //自动隐藏按钮控制器
 window.onscroll=function(){if(needRerender){var btn=document.getElementById("startRenderingButton");var scrollTop=document.body.scrollTop||(document.documentElement&&document.documentElement.scrollTop);if(scrollTop>=300){btn.style.display="none"}else{btn.style.display="block"}}var btn=document.getElementById("gotoTopButton");var scrollTop=document.body.scrollTop||(document.documentElement&&document.documentElement.scrollTop);if(scrollTop>=300){btn.style.display="block"}else{btn.style.display="none"}};
 </script>
-
 </body></html>
