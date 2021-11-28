@@ -710,17 +710,18 @@ function _player_on_changing(textarea,id){
 	setStartRenderingButtonEnable(true)
 }
 function _content_on_onblur(textarea){
-	$(document.getElementsByClassName("deleteCurrentItem")).remove()
+	const child = textarea.parentElement.parentElement;
 	setTimeout(function(){
+		$(child.getElementsByClassName("deleteCurrentItem")).remove()
 		if(textarea.innerHTML.trim()==""){
-			textarea.parentElement.parentElement.hidden=true;
+			child.remove()
 		}
 	},100)
 }
 function _content_on_onfocus(textarea){
 	var deleteBtn = document.createElement("a"); 
 	deleteBtn.setAttribute("class","deleteCurrentItem button button-caution button-small m-no-select");
-	deleteBtn.setAttribute("onclick","this.parentElement.hidden=true");
+	deleteBtn.setAttribute("onclick","this.parentElement.remove()");
 	deleteBtn.innerText="删除本行";
 	textarea.parentElement.parentElement.appendChild(deleteBtn); 
 	editedContent = true;
