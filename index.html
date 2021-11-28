@@ -710,9 +710,7 @@ function _player_on_changing(textarea,id){
 }
 function _content_on_onblur(textarea){
 	setTimeout(function(){
-		if(deleteBtn!=null){
-			$(document.getElementsByClassName("deleteCurrentItem")).remove()
-		}
+		$(document.getElementsByClassName("deleteCurrentItem")).remove()
 		if(textarea.innerText.trim()==""){
 			textarea.parentElement.parentElement.hidden=true;
 		}
