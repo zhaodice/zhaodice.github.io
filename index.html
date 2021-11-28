@@ -669,7 +669,8 @@ function closeBg() {
 <script>
 const colors=['#0080ff','#228B22','#FF1493','#FFA500','#800080','#00008B','#9ACD32','#808000','#BC8F8F','#008080','#FF0000','#8B0000','#000000','#6068aa','#72B2E1','#60CCA8','#7F7F7F','#FCD18F','#aa43ff','#eb74a1']
 var needRerender=true
-var needRedecode=true//需要重新对文本域解码
+var needRedecode=true//需要重新对文本域解码‘
+var editedContent=false
 var currentLastColorNumber //最后自动选择的颜色
 var loaded_data //日志数据
 var loaded_players //玩家数据
@@ -722,6 +723,7 @@ function _content_on_onfocus(textarea){
 	deleteBtn.setAttribute("onclick","this.parentElement.hidden=true");
 	deleteBtn.innerText="删除本行";
 	textarea.parentElement.parentElement.appendChild(deleteBtn); 
+	editedContent = true;
 }
 function _log_text_changing(){
 	needRedecode=true
@@ -1026,6 +1028,9 @@ function switch_to_mode(){
 	setElementVisibility('div_log_code',mode_code)
 }
 function init(){
+	if(editedContent && !confirm("你可能编辑了染色文本，如果重新染色，你会丢失关于【染色区域内的文本修改】，若不想丢失修改，【请取消】，并备份你的染色结果到本地磁碟，下次直接进行二次染色\n——是否【重新染色】？")){
+		return;
+	}
 	if(startRenderLogTimer != -1){
 		clearTimeout(startRenderLogTimer)
 	}
