@@ -652,7 +652,7 @@ function closeBg() {
 			<div class="<%=logControlStyle%>">
 			<span class="log_child_time" style="<%=hiddenTimeTextsSilver%>"><%= logData[i].time %></span>
 			<span class="log_child_content<%= logData[i].ob?' log_child_ob':''%>">
-				<span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span><span contenteditable="true"><%:= logData[i].content %></span>
+				<span style="<%=hiddenTimeTextsEmpty%>">&lt;<%= pl.player %>&gt;</span><span contenteditable="true" onblur="_content_on_onblur(this)" onfocus="_content_on_onfocus(this)"><%:= logData[i].content %></span>
 			</span><br>
 			</div>
 		<% } %>
@@ -707,6 +707,25 @@ function _visibility_on_changed(checkbox,id){
 function _player_on_changing(textarea,id){
 	loaded_players[id].player = textarea.innerText //修改玩家名称
 	setStartRenderingButtonEnable(true)
+}
+function _content_on_onblur(textarea){
+	const deleteBtn = document.getElementById("deleteCurrentItem");
+	setTimeout(function(){
+		if(deleteBtn!=null){
+			deleteBtn.remove()
+		}
+		if(textarea.innerText.trim()==""){
+			textarea.parentElement.parentElement.hidden=true;
+		}
+	},100)
+}
+function _content_on_onfocus(textarea){
+	var deleteBtn = document.createElement("a"); 
+	deleteBtn.setAttribute("id","deleteCurrentItem");
+	deleteBtn.setAttribute("class","button button-caution button-small m-no-select");
+	deleteBtn.setAttribute("onclick","this.parentElement.hidden=true");
+	deleteBtn.innerText="删除此选中";
+	textarea.parentElement.parentElement.appendChild(deleteBtn); 
 }
 function _log_text_changing(){
 	needRedecode=true
