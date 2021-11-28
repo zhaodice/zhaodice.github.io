@@ -711,7 +711,7 @@ function _player_on_changing(textarea,id){
 function _content_on_onblur(textarea){
 	$(document.getElementsByClassName("deleteCurrentItem")).remove()
 	setTimeout(function(){
-		if(textarea.innerText.trim()==""){
+		if(textarea.innerHTML.trim()==""){
 			textarea.parentElement.parentElement.hidden=true;
 		}
 	},100)
