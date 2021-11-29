@@ -1014,6 +1014,7 @@ function init(){
 	if(editedContent && !confirm("你可能编辑了染色文本，如果重新染色，你会丢失关于【染色区域内的文本修改】，若不想丢失修改，【请取消】，并备份你的染色结果到本地磁碟，下次直接进行二次染色\n——是否【重新染色】？")){
 		return;
 	}
+	editedContent = false
 	if(startRenderLogTimer != -1){
 		clearTimeout(startRenderLogTimer)
 	}
