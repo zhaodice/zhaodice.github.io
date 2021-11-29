@@ -1280,16 +1280,18 @@ function loadRemoteLogFile(server, file) {
 	package();
 }
 function allSelect(e){
-	if (document.body.createTextRange) {
-		var range = document.body.createTextRange();
-		range.moveToElementText(e);
-		range.select();
-	} else if (window.getSelection) {
-		var selection = window.getSelection();
-		var range = document.createRange();
-		range.selectNodeContents(e);
-		selection.removeAllRanges();
-		selection.addRange(range);
+	if(e.getElementsByClassName("deleteCurrentItem").length==0){
+		if (document.body.createTextRange) {
+			var range = document.body.createTextRange();
+			range.moveToElementText(e);
+			range.select();
+		} else if (window.getSelection) {
+			var selection = window.getSelection();
+			var range = document.createRange();
+			range.selectNodeContents(e);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
 	}
 }
 function getFileExt(filename) {
