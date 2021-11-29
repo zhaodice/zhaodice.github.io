@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="QQ跑团记录着色器" name="Description">
 <meta name="referrer" content="never">
@@ -594,7 +594,7 @@ function closeBg() {
 <table width="100%" border="0">
 <tbody>
 <tr>
-	<td colspan="5"><div align="left">可选的显示内容，单击可选择哪些类型被显示：</div></td>
+<td colspan="5"><div align="left">可选的显示内容，单击可选择哪些类型被显示：</div></td>
 </tr>
 <tr style="background-color: transparent;">
 <td><input type="checkbox" id="visibility_IMAGE" class="regular-checkbox" onChange="_on_switch_changed(this)"><label for="visibility_IMAGE">在线图片</label></td>
@@ -697,8 +697,15 @@ function _player_on_changing(textarea,id){
 	loaded_players[id].player = textarea.innerText //修改玩家名称
 	setStartRenderingButtonEnable(true)
 }
-function _content_on_onblur(textarea){
-	$(textarea.parentElement.parentElement.getElementsByClassName("deleteCurrentItem")).remove()
+function _content_on_onblur(textarea,immediately){
+	function hide(){
+		$(textarea.parentElement.parentElement.getElementsByClassName("deleteCurrentItem")).remove()
+	}
+	if(immediately){
+		hide();
+	}else{
+		setTimeout(hide,100);
+	}
 }
 function _content_on_onfocus(textarea){
 	var deleteBtn = document.createElement("a"); 
@@ -866,7 +873,7 @@ function startDecodeLog(){
 			}
 			return false
 		},function(unique){
-			math=logLine.match(/^(.*?) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})$/i)//新版本PC QQ的染色格式
+			math=logLine.match(/^(.*?) (\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2})$/i)//新版本PC QQ的染色格式
 			if(math!=null){
 				appendLogChild(unique,playerName,playerID,playerTime,othersContent)
 				playerName = math[1]
