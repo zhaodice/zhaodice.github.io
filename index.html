@@ -697,15 +697,13 @@ function _player_on_changing(textarea,id){
 	loaded_players[id].player = textarea.innerText //修改玩家名称
 	setStartRenderingButtonEnable(true)
 }
-function _content_on_onblur(textarea,immediately){
-	function hide(){
-		$(textarea.parentElement.parentElement.getElementsByClassName("deleteCurrentItem")).remove()
-	}
-	if(immediately){
-		hide();
-	}else{
-		setTimeout(hide,100);
-	}
+function hideThedeleteBtn(e){
+	$(e.getElementsByClassName("deleteCurrentItem")).remove()
+}
+function _content_on_onblur(textarea){
+	setTimeout(function(){
+		hideThedeleteBtn(textarea.parentElement.parentElement)
+	},500);
 }
 function _content_on_onfocus(textarea){
 	var deleteBtn = document.createElement("a"); 
@@ -1288,21 +1286,20 @@ function loadRemoteLogFile(server, file) {
 	package();
 }
 function allSelect(e){
-	if(e.getElementsByClassName("deleteCurrentItem").length==0){
-		if (document.body.createTextRange) {
-			var range = document.body.createTextRange();
-			range.moveToElementText(e);
-			range.select();
-		} else if (window.getSelection) {
-			var selection = window.getSelection();
-			var range = document.createRange();
-			range.selectNodeContents(e);
-			selection.removeAllRanges();
-			selection.addRange(range);
-		}
-		document.execCommand('copy');
-		alert('复制成功')
+	hideThedeleteBtn(e)
+	if (document.body.createTextRange) {
+		var range = document.body.createTextRange();
+		range.moveToElementText(e);
+		range.select();
+	} else if (window.getSelection) {
+		var selection = window.getSelection();
+		var range = document.createRange();
+		range.selectNodeContents(e);
+		selection.removeAllRanges();
+		selection.addRange(range);
 	}
+	document.execCommand('copy');
+	alert('复制成功')
 }
 function getFileExt(filename) {
 	var index = filename.lastIndexOf(".");
