@@ -616,26 +616,13 @@ function closeBg() {
 </div>
 </div>
 <div style="position:fixed;right:0;bottom:1em;z-index: 1;">
+<a id="allSelectButton" href="javascript:allSelect(document.getElementById('div_log_content'));document.execCommand('copy')" class="button button-glow button-rounded button-action" style="display:none">复制结果</a>
 <a id="startRenderingButton" onClick="init()" class="button button-glow button-rounded button-action" style="display: none;">点击重新染色跑团记录</a>
 <a id="gotoTopButton" href="javascript:scroll(0,0)" class="button button-glow button-rounded button-action" style="display:none">回到顶部</a>
 </div>
 </div>
 <div id="content" style="background: #FFF;">
-<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="
-							var text=this;
-							if (document.body.createTextRange) {
-									var range = document.body.createTextRange();
-									range.moveToElementText(text);
-									range.select();
-								} else if (window.getSelection) {
-									var selection = window.getSelection();
-									var range = document.createRange();
-									range.selectNodeContents(text);
-									selection.removeAllRanges();
-									selection.addRange(range);
-								}
-	
-						">
+<div id="div_log_content" role="tabpanel" style="background-color:#fff;word-wrap: break-word;word-break: normal;" onDblClick="allSelect(this)">
 <div id="div_log_view" role="tabpanel" style="background-color:#fff">
 </div>
 <div id="div_log_code" role="tabpanel" style="background-color: rgb(255, 255, 255); display: none;">
@@ -695,6 +682,7 @@ function initChecked(id,def){
 }
 function setStartRenderingButtonEnable(enbale){
 	setElementVisibility('startRenderingButton',enbale)
+	setElementVisibility('allSelectButton',!enbale)
 	needRerender=enbale
 }
 function _color_on_changed(e,id){
@@ -710,13 +698,7 @@ function _player_on_changing(textarea,id){
 	setStartRenderingButtonEnable(true)
 }
 function _content_on_onblur(textarea){
-	const child = textarea.parentElement.parentElement;
-	setTimeout(function(){
-		$(child.getElementsByClassName("deleteCurrentItem")).remove()
-		if(textarea.innerHTML.trim()==""){
-			child.remove()
-		}
-	},100)
+	$(textarea.parentElement.parentElement.getElementsByClassName("deleteCurrentItem")).remove()
 }
 function _content_on_onfocus(textarea){
 	var deleteBtn = document.createElement("a"); 
@@ -1296,6 +1278,19 @@ function loadRemoteLogFile(server, file) {
 		}
 	});
 	package();
+}
+function allSelect(e){
+	if (document.body.createTextRange) {
+		var range = document.body.createTextRange();
+		range.moveToElementText(e);
+		range.select();
+	} else if (window.getSelection) {
+		var selection = window.getSelection();
+		var range = document.createRange();
+		range.selectNodeContents(e);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	}
 }
 function getFileExt(filename) {
 	var index = filename.lastIndexOf(".");
