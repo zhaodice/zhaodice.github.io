@@ -703,7 +703,7 @@ function hideThedeleteBtn(e){
 function _content_on_onblur(textarea){
 	setTimeout(function(){
 		hideThedeleteBtn(textarea.parentElement.parentElement)
-	},500);
+	},250);
 }
 function _content_on_onfocus(textarea){
 	var deleteBtn = document.createElement("a"); 
