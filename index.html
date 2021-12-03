@@ -1281,13 +1281,13 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					//var data = event.target.response;
-					storagedData=mergeArrayBuffer(storagedData,new Uint8Array(loadingData));
+					storagedData=mergeArrayBuffer(storagedData,loadingData);
 					loadedLength+=loadingLength;
 					if(loadedLength>data.size){
 						showBg("联网错误，可以交给其他人打开试试、或科学上网，等待一段时间后刷新网页后重试");
 						isLoading=false;
 					}else{
-						content = String.fromCharCode.apply(null, storagedData);
+						content = String.fromCharCode.apply(null, new Uint8Array(storagedData));
 						if(content!="" && (crc32FromServer==0 || crc32FromServer==crc32(content))){//crc完整性校验成功
 							loaded=true
 							document.getElementById("logContent").value = content;
