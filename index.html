@@ -1264,14 +1264,19 @@ function loadRemoteLogFile(server, file) {
 					//var data = event.target.response;
 					storagedData+=loadingData;
 					loadedLength+=loadingLength;
-					if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
-						loaded=true
-						document.getElementById("logContent").value = storagedData;
-						init()
+					if(loadingLength>data.size){
+						showBg("联网错误，可以交给其他人打开试试、或科学上网，等待一段时间后刷新网页后重试");
+						isLoading=false;
 					}else{
-						showBg("正在继续下载...");
-						doAjaxRequestLoopDelay();
-						//isLoading=false;
+						if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
+							loaded=true
+							document.getElementById("logContent").value = storagedData;
+							init()
+						}else{
+							attempts = 0;
+							showBg("正在继续下载...");
+							doAjaxRequestLoopDelay();
+						}
 					}
 				});
 				xhr.addEventListener('error',
