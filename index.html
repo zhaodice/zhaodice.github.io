@@ -1256,7 +1256,7 @@ function loadRemoteLogFile(server, file) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
 					loadingData=event.target.response;
 					loadingLength = event.loaded;
-					setBgProcess((((loadingData.byteLength()) / size) * 100).toFixed(3))
+					setBgProcess((((loadedLength+loadingLength) / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
