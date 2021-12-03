@@ -1268,6 +1268,7 @@ function loadRemoteLogFile(server, file) {
 						init()
 					}else{
 						showBg("正在继续下载...");
+						doAjaxRequestLoopDelay();
 						//isLoading=false;
 					}
 				});
