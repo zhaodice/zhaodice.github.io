@@ -1172,10 +1172,6 @@ function loadRemoteLogFile(server, file) {
 		var loaded=false;
 		var timeID=-1;
 		var receivedMetaData=null;
-		var storagedData = "";
-		var loadingData = "";
-		var loadingLength = 0;
-		var loadedLength = 0;
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -1212,8 +1208,6 @@ function loadRemoteLogFile(server, file) {
 		function step_1(){
 			showBg("[1/2]正在搜索文件，请稍后....");
 			if(receivedMetaData==null){
-				storagedData="";
-				loadedLength=0;
 				$.ajax({
 					url: fileInfoUrl,
 					type: "get",
@@ -1243,40 +1237,25 @@ function loadRemoteLogFile(server, file) {
 				if(data.redirectDownloadUrl){
 					downloadUrl=data.redirectDownloadUrl;//重定向下载地址
 				}
-				
-				var downloadUrlobj=new URL(downloadUrl)
-				downloadUrlobj.searchParams.set("where",loadedLength)
-				downloadUrl=downloadUrlobj.toString()
-				
 				liveTime = data.live;
 				var xhr = new XMLHttpRequest();
 				xhr.open( "GET", downloadUrl, true);
 				xhr.addEventListener('progress',
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
-					loadingData=event.target.response;
-					loadingLength = event.loaded;
-					setBgProcess((((loadedLength+loadingLength) / size) * 100).toFixed(3))
+					setBgProcess((((event.target.response.byteLength()) / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
 				function(event) {
-					//var data = event.target.response;
-					storagedData+=loadingData;
-					loadedLength+=loadingLength;
-					if(loadedLength>data.size){
-						showBg("联网错误，可以交给其他人打开试试、或科学上网，等待一段时间后刷新网页后重试");
-						isLoading=false;
+					var data = event.target.response;
+					if(data!='' && (crc32FromServer==0 || crc32FromServer==crc32(data))){//crc完整性校验成功
+						loaded=true
+						document.getElementById("logContent").value = data;
+						init()
 					}else{
-						if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
-							loaded=true
-							document.getElementById("logContent").value = storagedData;
-							init()
-						}else{
-							attempts = 0;
-							showBg("正在继续下载...");
-							doAjaxRequestLoopDelay();
-						}
+						showBg("下载log遭遇网络问题，请稍后重试、或者让其他人打开、或者科学上网");
+						isLoading=false;
 					}
 				});
 				xhr.addEventListener('error',
