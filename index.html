@@ -1264,7 +1264,7 @@ function loadRemoteLogFile(server, file) {
 					//var data = event.target.response;
 					storagedData+=loadingData;
 					loadedLength+=loadingLength;
-					if(loadingLength>data.size){
+					if(loadedLength>data.size){
 						showBg("联网错误，可以交给其他人打开试试、或科学上网，等待一段时间后刷新网页后重试");
 						isLoading=false;
 					}else{
