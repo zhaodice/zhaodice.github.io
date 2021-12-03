@@ -1173,6 +1173,7 @@ function loadRemoteLogFile(server, file) {
 		var timeID=-1;
 		var receivedMetaData=null;
 		var storagedData = "";
+		var loadingData = "";
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -1250,13 +1251,14 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('progress',
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
-					setBgProcess((((event.target.response.byteLength()) / size) * 100).toFixed(3))
+					loadingData=event.target.response;
+					setBgProcess((((loadingData.byteLength()) / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
-					storagedData+=data;
+					storagedData+=loadingData;
 					if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
 						loaded=true
 						document.getElementById("logContent").value = storagedData;
