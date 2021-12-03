@@ -1141,24 +1141,6 @@ String.prototype.byteLength = function() {
     }
     return byteLen;
 }
-//arrays成员类型可以是 ArrayBuffer 或 TypeArray
-function mergeArrayBuffer(...arrays) {
-    let totalLen = 0
-    for (let i = 0; i < arrays.length; i++) {
-        arrays[i] = new Uint8Array(arrays[i]) //全部转成Uint8Array
-        totalLen += arrays[i].length
-    }
-
-    let res = new Uint8Array(totalLen)
-
-    let offset = 0
-    for(let arr of arrays) {
-        res.set(arr, offset)
-        offset += arr.length
-    }
-
-    return res.buffer
-}
 function loadRemoteLogFile(file) {
 	loadRemoteLogFile('', file)
 }
@@ -1190,8 +1172,8 @@ function loadRemoteLogFile(server, file) {
 		var loaded=false;
 		var timeID=-1;
 		var receivedMetaData=null;
-		var storagedData = new Uint8Array();
-		var loadingData = new Uint8Array();
+		var storagedData = "";
+		var loadingData = "";
 		var loadingLength = 0;
 		var loadedLength = 0;
 		doAjaxRequest();
@@ -1268,29 +1250,27 @@ function loadRemoteLogFile(server, file) {
 				
 				liveTime = data.live;
 				var xhr = new XMLHttpRequest();
-				xhr.responseType = "arraybuffer";
 				xhr.open( "GET", downloadUrl, true);
 				xhr.addEventListener('progress',
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
 					loadingData=event.target.response;
 					loadingLength = event.loaded;
-					setBgProcess(((loadingLength+loadedLength) / size).toFixed(3) * 100)
+					setBgProcess((((loadingData.byteLength()) / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
 				function(event) {
 					//var data = event.target.response;
-					storagedData=mergeArrayBuffer(storagedData,loadingData);
+					storagedData+=loadingData;
 					loadedLength+=loadingLength;
 					if(loadedLength>data.size){
 						showBg("联网错误，可以交给其他人打开试试、或科学上网，等待一段时间后刷新网页后重试");
 						isLoading=false;
 					}else{
-						content = String.fromCharCode.apply(null, new Uint16Array(storagedData));
-						if(content!="" && (crc32FromServer==0 || crc32FromServer==crc32(content))){//crc完整性校验成功
+						if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
 							loaded=true
-							document.getElementById("logContent").value = content;
+							document.getElementById("logContent").value = storagedData;
 							init()
 						}else{
 							attempts = 0;
