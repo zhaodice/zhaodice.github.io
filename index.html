@@ -1268,7 +1268,7 @@ function loadRemoteLogFile(server, file) {
 				
 				liveTime = data.live;
 				var xhr = new XMLHttpRequest();
-				xhr.responseType = "ArrayBuffer";
+				xhr.responseType = "arraybuffer";
 				xhr.open( "GET", downloadUrl, true);
 				xhr.addEventListener('progress',
 				function(event) {
