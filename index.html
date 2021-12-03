@@ -1256,7 +1256,7 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
-					var storagedData+=data;
+					storagedData+=data;
 					if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
 						loaded=true
 						document.getElementById("logContent").value = storagedData;
