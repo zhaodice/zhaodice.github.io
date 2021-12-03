@@ -1174,6 +1174,7 @@ function loadRemoteLogFile(server, file) {
 		var receivedMetaData=null;
 		var storagedData = "";
 		var loadingData = "";
+		var loadedLength = 0;
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -1211,6 +1212,7 @@ function loadRemoteLogFile(server, file) {
 			showBg("[1/2]正在搜索文件，请稍后....");
 			if(receivedMetaData==null){
 				storagedData="";
+				loadedLength=0;
 				$.ajax({
 					url: fileInfoUrl,
 					type: "get",
@@ -1242,7 +1244,7 @@ function loadRemoteLogFile(server, file) {
 				}
 				
 				var downloadUrlobj=new URL(downloadUrl)
-				downloadUrlobj.searchParams.set("where",storagedData.byteLength())
+				downloadUrlobj.searchParams.set("where",loadedLength)
 				downloadUrl=downloadUrlobj.toString()
 				
 				liveTime = data.live;
@@ -1252,12 +1254,13 @@ function loadRemoteLogFile(server, file) {
 				function(event) {
 					const size = event.lengthComputable?event.total:data.size //获取文件总大小
 					loadingData=event.target.response;
+					loadedLength = event.loaded;
 					setBgProcess((((loadingData.byteLength()) / size) * 100).toFixed(3))
 				},
 				false);
 				xhr.addEventListener('loadend',
 				function(event) {
-					var data = event.target.response;
+					//var data = event.target.response;
 					storagedData+=loadingData;
 					if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
 						loaded=true
