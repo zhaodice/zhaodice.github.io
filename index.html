@@ -1172,6 +1172,7 @@ function loadRemoteLogFile(server, file) {
 		var loaded=false;
 		var timeID=-1;
 		var receivedMetaData=null;
+		var storagedData = "";
 		doAjaxRequest();
 		function doAjaxRequest() {
 			attempts = 0;
@@ -1207,6 +1208,7 @@ function loadRemoteLogFile(server, file) {
 		}
 		function step_1(){
 			showBg("[1/2]正在搜索文件，请稍后....");
+			storagedData="";
 			if(receivedMetaData==null){
 				$.ajax({
 					url: fileInfoUrl,
@@ -1237,6 +1239,11 @@ function loadRemoteLogFile(server, file) {
 				if(data.redirectDownloadUrl){
 					downloadUrl=data.redirectDownloadUrl;//重定向下载地址
 				}
+				
+				var downloadUrlobj=new URL(downloadUrl)
+				downloadUrlobj.searchParams.append("where",storagedData.byteLength())
+				downloadUrl=downloadUrlobj.toString()
+				
 				liveTime = data.live;
 				var xhr = new XMLHttpRequest();
 				xhr.open( "GET", downloadUrl, true);
@@ -1249,9 +1256,10 @@ function loadRemoteLogFile(server, file) {
 				xhr.addEventListener('loadend',
 				function(event) {
 					var data = event.target.response;
-					if(data!='' && (crc32FromServer==0 || crc32FromServer==crc32(data))){//crc完整性校验成功
+					var storagedData+=data;
+					if(storagedData!='' && (crc32FromServer==0 || crc32FromServer==crc32(storagedData))){//crc完整性校验成功
 						loaded=true
-						document.getElementById("logContent").value = data;
+						document.getElementById("logContent").value = storagedData;
 						init()
 					}else{
 						showBg("下载log遭遇网络问题，请稍后重试、或者让其他人打开、或者科学上网");
