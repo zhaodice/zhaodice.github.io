@@ -1338,9 +1338,11 @@ function F5() {
 	if (remoteCode != '') {
 		if (remoteCode.startsWith('#')) {
 			remoteCode = remoteCode.substr(1) 
-			remoteCode = remoteCode.split('-') 
-			if (remoteCode.length == 2) {
-				loadRemoteLogFile(serverList[parseInt(remoteCode[0])], remoteCode[1]) //解析格式为 https://染色器地址/#ID-CODE
+			var b=remoteCode.indexOf('-');
+			if (b!=-1) {
+				var sid=remoteCode.substring(0,b);
+				var lid=remoteCode.substring(b+1,remoteCode.length);
+				loadRemoteLogFile(serverList[parseInt(sid)], lid) //解析格式为 https://染色器地址/#ID-CODE
 			}
 		} else {
 			loadRemoteLogFile('', remoteCode)
