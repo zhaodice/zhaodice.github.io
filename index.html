@@ -1273,11 +1273,13 @@ function loadRemoteLogFile(server, file) {
 				if (leftTimeInterval != 0) {
 					clearInterval(leftTimeInterval);
 				}
-				leftTimeInterval = setInterval(function() {
-					showtime();
-					leftTime--;
-				},
-				1000); //反复执行函数本身
+				if(liveTime>0){
+					leftTimeInterval = setInterval(function() {
+						showtime();
+						leftTime--;
+					},
+					1000); //反复执行函数本身
+				}
 			} else {
 				showBg(data.content);
 			}
