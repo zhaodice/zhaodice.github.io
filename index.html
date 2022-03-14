@@ -1,6 +1,8 @@
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<link rel="shortcut icon" href="#" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta content="QQ跑团记录着色器" name="Description">
 <meta name="referrer" content="never">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -929,7 +931,7 @@ function startRenderLog(){
 			}
 		}
 		if(!viewCode){
-			newChild.content = newChild.content.replace(/\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
+			newChild.content = newChild.content.replace(/\[CQ:.*\]|\[mirai:.*\]|\[@\d+\]|\[[a-z]+=.*\]|\[.*\.gif\]|^{"app":.*|\[图片\]/,"").trim()
 			if (newChild.content.length == 0) {
 				continue
 			}
@@ -1066,19 +1068,22 @@ function replaceImageRobotCodeToHTML(content){
 	function getImage(code){
 		return "https://gchat.qpic.cn/gchatpic_new/0/0-0-"+escape(code.replaceAll('-',''))+"/0?term=2";
 	}
-	function getHtml(oricode,code){
-		var url = getImage(code);
+	function getHtml(oricode,url){
 		oricode = HTMLEncode(oricode);
 		oricode = oricode.replace("[","&#91;");
 		return "<div style='text-indent:4em;'><a class='suitableImageLink' target='_blank' href='"+url+"'><img alt='"+oricode+"' class='suitableImage lazy' data-original='"+url+"'></a></div>";
 	}
 	var imageMatch = [...content.matchAll(/\[mirai:image:\{(.*?)\}\.(.*?)\]/g)]
 	for(var j=0;j<imageMatch.length;j++){
-		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][0],imageMatch[j][1]))
+		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][0],getImage(imageMatch[j][1])))
 	}
 	imageMatch = [...content.matchAll(/\[pic={(.*?)}\.(.*?)(,.*?,.*?)?\]/g)]
 	for(var j=0;j<imageMatch.length;j++){
-		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][0],imageMatch[j][1]))
+		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][0],getImage(imageMatch[j][1])))
+	}
+	imageMatch = [...content.matchAll(/\[CQ:image,file=(.*?)\.image,url=(.*?),subType=(.*?)\]/g)]
+	for(var j=0;j<imageMatch.length;j++){
+		content=content.replace(imageMatch[j][0],getHtml(imageMatch[j][0],imageMatch[j][2]))
 	}
 	return content;
 }
